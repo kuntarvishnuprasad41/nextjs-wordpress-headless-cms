@@ -27,6 +27,7 @@ if (!baseUrl) {
 interface FetchOptions {
   next?: {
     revalidate?: number | false;
+    cache?: "default" | "no-store" | "no-cache";
     tags?: string[];
   };
   headers?: HeadersInit;
@@ -41,7 +42,8 @@ function getUrl(path: string, query?: Record<string, any>) {
 const defaultFetchOptions: FetchOptions = {
   next: {
     tags: ["wordpress"],
-    revalidate: 30, // Revalidate every 5 min by default
+    // revalidate: 30, // Revalidate every 5 min by default
+    cache: "no-store",
   },
   headers: {
     Accept: "application/json",
