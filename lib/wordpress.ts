@@ -17,6 +17,7 @@ import {
 
 // WordPress Config
 const baseUrl = process.env.WORDPRESS_URL;
+// const baseUrl = "https://wordpress.vishnuprasadkuntar.me";
 
 if (!baseUrl) {
   throw new Error("WORDPRESS_URL environment variable is not defined");
