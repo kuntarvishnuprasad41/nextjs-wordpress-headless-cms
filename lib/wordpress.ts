@@ -64,21 +64,11 @@ async function wordpressFetch<T>(
   url: string,
   options: FetchOptions = {}
 ): Promise<T> {
-  console.log("url", url, "urlllllllllllllllllllllllllll");
+  
 
   const headersList = await headers();
   const userAgent = headersList.get("user-agent") || "Next.js WordPress Client";
-
-  console.log(userAgent, "userAgent");
-  console.log(options.headers, "headersList");
-  console.log(
-    {
-      ...options.headers,
-      ...defaultFetchOptions,
-      "User-Agent": userAgent,
-    },
-    "options.headers"
-  );
+ 
 
   const response = await fetch(url, {
     ...defaultFetchOptions,
