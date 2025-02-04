@@ -41,7 +41,7 @@ function getUrl(path: string, query?: Record<string, any>) {
 const defaultFetchOptions: FetchOptions = {
   next: {
     tags: ["wordpress"],
-    revalidate: 3600, // Revalidate every hour by default
+    revalidate: 30, // Revalidate every 5 min by default
   },
   headers: {
     Accept: "application/json",
@@ -72,7 +72,7 @@ async function wordpressFetch<T>(
   console.log(
     {
       ...options.headers,
-      ...defaultFetchOptions.headers,
+      ...defaultFetchOptions,
       "User-Agent": userAgent,
     },
     "options.headers"
@@ -81,6 +81,7 @@ async function wordpressFetch<T>(
   const response = await fetch(url, {
     ...defaultFetchOptions,
     ...options,
+    // cache: "no-store",
     headers: {
       ...defaultFetchOptions.headers,
       // "User-Agent": userAgent,
