@@ -62,18 +62,35 @@ async function wordpressFetch<T>(
   url: string,
   options: FetchOptions = {}
 ): Promise<T> {
+  console.log("url", url, "urlllllllllllllllllllllllllll");
+
   const headersList = await headers();
   const userAgent = headersList.get("user-agent") || "Next.js WordPress Client";
+
+  console.log(userAgent, "userAgent");
+  console.log(options.headers, "headersList");
+  console.log(
+    {
+      ...options.headers,
+      ...defaultFetchOptions.headers,
+      "User-Agent": userAgent,
+    },
+    "options.headers"
+  );
 
   const response = await fetch(url, {
     ...defaultFetchOptions,
     ...options,
     headers: {
       ...defaultFetchOptions.headers,
-      "User-Agent": userAgent,
-      ...options.headers,
+      // "User-Agent": userAgent,
+      // ...options.headers,
     },
   });
+
+  // const rawResponse = await response.text();
+  // // console.log("Response Status:", response.status);
+  // console.log("Raw Response:", rawResponse);
 
   if (!response.ok) {
     throw new WordPressAPIError(
