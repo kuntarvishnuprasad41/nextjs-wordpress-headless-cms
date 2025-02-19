@@ -33,6 +33,14 @@ pipeline {
                 '''
             }
         }
+         stage('Copy .env file') { 
+            steps {
+                sh '''
+                cd ${DEPLOY_DIR}
+                cp /var/lib/jenkins/.env.local .env.local
+                '''
+            }
+        }
         stage('Build Application') { 
             steps {
                 sh '''
