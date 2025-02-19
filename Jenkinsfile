@@ -1,6 +1,11 @@
 pipeline {
     agent any
+
+   
+ 
     environment {
+        NODEJS_HOME = "${tool 'nodejs'}"
+        PATH = "${env.NODEJS_HOME}/bin:${env.PATH}"
         DEPLOY_DIR = "/var/deployments/proco-leader"
         APP_NAME = "proco-leader"   
     }
