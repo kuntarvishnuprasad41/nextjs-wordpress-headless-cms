@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                 cd ${DEPLOY_DIR}
-                npm install
+                npm install --force
                 '''
             }
         }
