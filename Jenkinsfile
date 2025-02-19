@@ -8,10 +8,10 @@ pipeline {
         stage('Prepare Deployment Directory') { 
             steps { 
                 sh '''
-                rm -rf ${DEPLOY_DIR}
-                mkdir -p ${DEPLOY_DIR}
-                cp -r . ${DEPLOY_DIR}
-                rm -rf ${DEPLOY_DIR}/.git ${DEPLOY_DIR}/.next
+                  sudo rm -rf ${DEPLOY_DIR}
+                sudo mkdir -p ${DEPLOY_DIR}
+                sudo cp -r . ${DEPLOY_DIR}
+                sudo rm -rf ${DEPLOY_DIR}/.git ${DEPLOY_DIR}/.next
                 '''
             }
         }
