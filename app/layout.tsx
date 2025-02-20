@@ -95,7 +95,7 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
             </div>
           </div>
         </div>
-        <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
+        <div className="flex gap-2 md:gap-4 items-center flex-shrink-0">
           <button className={`border ${mode === "dark" ? "border-white text-white" : "border-black text-black"} rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}>
             Sign In
           </button>
