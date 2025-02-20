@@ -6,7 +6,7 @@ import Link, { LinkProps } from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 // Utility Imports
-import { Menu, ArrowRightSquare, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Component Imports
