@@ -94,7 +94,7 @@ function MobileLink({
         router.push(href.toString());
         onOpenChange?.(false);
       }}
-      className={cn("text-lg", className)}
+      className={cn("text-base", className)}
       {...props}
     >
       {children}
