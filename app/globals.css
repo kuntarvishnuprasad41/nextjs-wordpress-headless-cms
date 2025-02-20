@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -webkit-scrollbar-width: none; /* Chrome, Safari */
+  -moz-scrollbar-width: none; /* Firefox */
+  scrollbar-width: none; /* Standard */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

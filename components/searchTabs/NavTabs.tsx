@@ -1,8 +1,5 @@
 "use client";
-import React from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,23 +10,30 @@ import { ArrowUp } from "lucide-react";
 
 function NavTabs() {
   const [activeTab, setActiveTab] = useState("recent");
-  const [tabWidth, setTabWidth] = useState(0);
-  const [tabOffset, setTabOffset] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const tabsContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const activeIndex = ["recent", "top", "featured", "proco"].indexOf(
       activeTab
     );
-    if (tabsRef.current[activeIndex]) {
-      setTabWidth(tabsRef.current[activeIndex]?.offsetWidth || 0);
-      setTabOffset(tabsRef.current[activeIndex]?.offsetLeft || 0);
+    const activeTabElement = tabsRef.current[activeIndex];
+    const container = tabsContainerRef.current;
+
+    if (activeTabElement && container) {
+      const containerWidth = container.offsetWidth;
+      const tabWidth = activeTabElement.offsetWidth;
+      const tabOffsetLeft = activeTabElement.offsetLeft;
+
+      const scrollLeft = tabOffsetLeft - containerWidth / 2 + tabWidth / 2;
+      container.scrollTo({ left: scrollLeft, behavior: "smooth" });
     }
   }, [activeTab]);
+
   return (
-    <div className="max-w-10xl  border-gray-800">
+    <div className="max-w-10xl sm:md:max-w-sm w-screen border-gray-800 overflow-hidden">
       <div className="container mx-auto px-5 py-4">
-        <div className="flex   sm:flex-row gap-1 items-center justify-between">
+        <div className="flex flex-col md:flex-row gap-10 items-center justify-between">
           <div className="flex items-center w-full max-w-[800px] p-2 bg-white bg-opacity-[10%] rounded-full shadow-md outline-none">
             <Input
               type="text"
@@ -44,36 +48,32 @@ function NavTabs() {
               <ArrowUp className="w-5 h-5" />
             </Button>
           </div>
-          <Tabs
-            defaultValue="recent"
-            onValueChange={setActiveTab}
-            className="w-full sm:w-auto flex justify-center"
-          >
-            <TabsList className="relative   bg-[#FFFFFF] bg-opacity-[10%]   rounded-full   inline-flex h-14">
-              <motion.div
-                className="absolute top-0 h-full bg-white rounded-full"
-                animate={{ width: tabWidth, left: tabOffset }}
-                transition={{
-                  type: "inertia",
-                  stiffness: 200,
-                  damping: 20,
-                }}
-              />
 
-              {["recent", "top", "featured", "proco"].map((tab, index) => (
-                <TabsTrigger
-                  key={tab}
-                  value={tab}
-                  ref={(el) => {
-                    tabsRef.current[index] = el;
-                  }}
-                  className="relative z-10 px-4 py-3 text-sm transition-all font-semibold rounded-full text-white data-[state=active]:text-black  hover:bg-gray-500 my-1 mx-[3px] hover:bg-opacity-50"
-                >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)} stories
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          <div
+            ref={tabsContainerRef}
+            className="w-full overflow-x-auto scrollbar-hide whitespace-nowrap"
+          >
+            <Tabs
+              defaultValue="recent"
+              onValueChange={setActiveTab}
+              className="flex justify-start"
+            >
+              <TabsList className="bg-[#FFFFFF] bg-opacity-[10%] rounded-full inline-flex h-14 min-w-max whitespace-nowrap">
+                {["recent", "top", "featured", "proco"].map((tab, index) => (
+                  <TabsTrigger
+                    key={tab}
+                    value={tab}
+                    ref={(el) => {
+                      tabsRef.current[index] = el;
+                    }}
+                    className="z-10 px-3 py-2 text-sm transition-all font-semibold rounded-full text-white data-[state=active]:text-black hover:bg-gray-500 my-1 mx-[3px] hover:bg-opacity-50"
+                  >
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)} stories
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
         </div>
       </div>
     </div>

@@ -25,13 +25,13 @@ export default function Hero() {
     >
       {/* Hero Section */}
       <section className="container mx-auto px-8 py-8 max-w-10xl">
-        <div className="flex gap-14">
+        <div className="flex gap-14 sm:gap-0 sm:flex-col-reverse  ">
           <div className="space-y-4">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
               The Young, Inexperienced Engineers Aiding Elon Musk&apos;s
               Government Takeover
             </h1>
-            <p className="text-gray-400 text-lg">
+            <p className="text-gray-400 text-lg ">
               Engineers between 19 and 24, most linked to Musk&apos;s companies,
               are playing a key role as he seizes control of federal
               infrastructure.
@@ -40,7 +40,7 @@ export default function Hero() {
               Read more
             </Button>
           </div>
-          <div className="relative h-[370px] lg:h-[600px] rounded-xl overflow-hidden">
+          <div className="relative h-[370px] lg:h-[600px] sm:w-[190px] rounded-xl overflow-hidden">
             <Image
               src="/images/flags.png"
               alt="International flags on display"
@@ -66,7 +66,7 @@ export default function Hero() {
           }}
           className="w-screen  select-none"
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <CarouselContent className="-ml-2 md:-ml-4 ">
             {[
               {
                 title: "The growing complexity of global cybersecurity",
@@ -121,12 +121,12 @@ export default function Hero() {
                 key={i}
                 className={`pl-2 md:pl-4 ${
                   i === 0
-                    ? "md:basis-[35%] lg:basis-1/5 h-72"
-                    : "md:basis-1/6 lg:basis-1/5 h-72"
+                    ? "md:basis-[35%] basis-3/4 lg:basis-1/5 h-72"
+                    : "md:basis-1/6  basis-3/4 lg:basis-1/5 h-72"
                 }`}
               >
                 <Card
-                  className={`bg-gray-800 flex flex-col justify-between h-full bg-cover bg-center ${
+                  className={`bg-gray-800 flex flex-col justify-between h-full bg-cover bg-center  ${
                     i !== 0
                       ? "text-white border-gray-700"
                       : "bg-white text-black"
