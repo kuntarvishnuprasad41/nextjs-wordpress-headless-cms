@@ -27,8 +27,8 @@ function NavTabs() {
     }
   }, [activeTab]);
   return (
-    <div className="  border-gray-800">
-      <div className="container mx-auto px-4 py-4">
+    <div className="max-w-10xl  border-gray-800">
+      <div className="container mx-auto px-5 py-4">
         <div className="flex   sm:flex-row gap-1 items-center justify-between">
           <div className="flex items-center w-full max-w-[800px] p-2 bg-white bg-opacity-[10%] rounded-full shadow-md outline-none">
             <Input

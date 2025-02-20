@@ -24,7 +24,7 @@ export default function Hero() {
  text-white"
     >
       {/* Hero Section */}
-      <section className="container mx-auto px-8 py-8 max-w-6xl">
+      <section className="container mx-auto px-8 py-8 max-w-10xl">
         <div className="flex gap-14">
           <div className="space-y-4">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
@@ -58,13 +58,13 @@ export default function Hero() {
       <NavTabs />
 
       {/* Articles Carousel */}
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-5 py-8 overflow-visible">
         <Carousel
           opts={{
             align: "start",
             loop: false,
           }}
-          className="w-full select-none"
+          className="w-screen  select-none"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {[
