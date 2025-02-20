@@ -121,7 +121,7 @@ const Footer = () => {
           width={120}
           height={40}
         ></Image>
-        <div className="md:w-[800px] md:mx-auto md:text-wrap md:text-center">
+        <div className="md:max-w-[800px] md:mx-auto md:text-wrap md:text-center">
           ProCo & Leader is where tomorrow is realized. It is the essential source of information and ideas that make sense of a world in constant transformation. The ProCo & Leader conversation illuminates how technology is changing every aspect of our lives—from culture to business, science to design. The breakthroughs and innovations that we uncover lead to new ways of thinking, new connections, and new industries
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
