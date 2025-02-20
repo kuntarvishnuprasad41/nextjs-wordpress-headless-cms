@@ -25,7 +25,7 @@ export default function Hero() {
     >
       {/* Hero Section */}
       <section className="container mx-auto px-8 py-8 max-w-10xl">
-        <div className="flex gap-14 sm:gap-0 sm:flex-col-reverse  ">
+        <div className="flex gap-14 sm:gap-0  flex-col  md:flex-row ">
           <div className="space-y-4">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
               The Young, Inexperienced Engineers Aiding Elon Musk&apos;s
@@ -40,7 +40,7 @@ export default function Hero() {
               Read more
             </Button>
           </div>
-          <div className="relative h-[370px] lg:h-[600px] sm:w-[190px] rounded-xl overflow-hidden">
+          <div className="relative md:h-[390px] h-[240px] lg:h-[600px] sm:w-[190px] rounded-xl overflow-hidden">
             <Image
               src="/images/flags.png"
               alt="International flags on display"
