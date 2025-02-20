@@ -20,7 +20,7 @@ const config = {
     },
     screens:{
       "md":"768px",
-      "nav-md":"1000px"
+      "nav-md":"1100px"
     },
     extend: {
       fontFamily: {

@@ -1,9 +1,6 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/nav/mobile-nav";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { mainMenu, contentMenu } from "@/menu.config";
@@ -13,6 +10,7 @@ import { siteConfig } from "@/site.config";
 
 import Balancer from "react-wrap-balancer";
 import Logo from "@/public/pro_co_leader.svg";
+import LogoWhite from "@/public/pro_co_leader_white.svg";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -53,26 +51,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={cn("min-h-screen font-sans antialiased", accurat.className)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Nav />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <Nav mode="dark" />
+        {children}
+        <Footer />
         <Analytics />
       </body>
     </html>
   );
 }
 
-const Nav = ({ className, children, id }: NavProps) => {
+const Nav = ({ className, children, id, mode }: NavProps) => {
   return (
     <nav
-      className={cn("sticky z-50 top-0 bg-background", "border-b", className)}
+      className={cn(`sticky z-50 top-0 ${mode === "dark" ? "text-white bg-black" : "text-black bg-white"}`, "", className)}
       id={id}
     >
       <div
@@ -86,31 +77,28 @@ const Nav = ({ className, children, id }: NavProps) => {
             href="/"
           >
             <Image
-              src={Logo}
+              src={mode === "dark" ? LogoWhite : Logo}
               alt="Logo"
               loading="eager"
-              className="dark:invert"
-              width={100}
-              height={52}
+              width={120}
+              height={40}
             ></Image>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="mx-2 hidden nav-md:flex">
-              {Object.entries(mainMenu).map(([key, href]) => (
-                <Button key={href} asChild variant="ghost" size="sm">
-                  <Link href={href}>
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                  </Link>
-                </Button>
+            <div className="mx-2 hidden nav-md:flex nav-md:gap-6">
+              {Object.entries(mainMenu).map(([key, href], index) => (
+                <Link href={href} key={index}>
+                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                </Link>
               ))}
             </div>
           </div>
         </div>
         <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
-          <button className="border border-white rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+          <button className={`border ${mode === "dark" ? "border-white text-white" : "border-black text-black"} rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}>
             Sign In
           </button>
-          <button className="hidden nav-md:block border border-white rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+          <button className={`hidden nav-md:block border ${mode === "dark" ? "border-white text-white" : "border-black text-black"} rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}>
             Subscribe
           </button>
         </div>

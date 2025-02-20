@@ -16,6 +16,14 @@ export default function Home() {
     <Section>
       <Container>
         <ToDelete />
+        < section className="bg-black h-64 text-white">
+
+        </section>
+        < section className="bg-blue-600 h-64 text-green-600">
+
+        </section>
+        < section className="bg-red-600 h-64 text-white">
+        </section>
       </Container>
     </Section>
   );

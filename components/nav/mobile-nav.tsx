@@ -34,17 +34,17 @@ export function MobileNav() {
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          className="px-0 border w-10 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 nav-md:hidden"
+          className="px-0 border w-10 text-base hover:bg-transparent hover:text-white focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 nav-md:hidden"
         >
-          <Menu />
+          <Menu className="hover:text-white"/>
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="pr-0">
+      <SheetContent side="left" className="px-4 bg-black text-white border-none">
         <SheetHeader>
-          <SheetTitle className="px-5">
+          <SheetTitle className="px-5 text-white">
             <div className="flex justify-between">
-              <X size={24} onClick={closeOpen} className="cursor-pointer" />
+              <X size={24} onClick={closeOpen} className="cursor-pointer text-white" />
               <button className="border border-white rounded-full px-3 py-1 nav-md:px-4 nav-md:py-1 text-sm nav-md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
                 Subscribe
               </button>
