@@ -18,7 +18,7 @@ export default function Home() {
       <Container>
         <Hero />
         {/* <Hero /> */}
-        <ToDelete />
+        {/* <ToDelete /> */}
       </Container>
     </Section>
   );
