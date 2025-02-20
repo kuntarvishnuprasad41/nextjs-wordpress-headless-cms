@@ -24,8 +24,8 @@ export default function Hero() {
  text-white"
     >
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="flex gap-8">
+      <section className="container mx-auto px-8 py-8 max-w-6xl">
+        <div className="flex gap-14">
           <div className="space-y-4">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
               The Young, Inexperienced Engineers Aiding Elon Musk's Government

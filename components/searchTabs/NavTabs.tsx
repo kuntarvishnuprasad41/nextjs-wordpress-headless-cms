@@ -3,11 +3,13 @@ import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
-import { Search } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ArrowUp } from "lucide-react";
 
 function NavTabs() {
   const [activeTab, setActiveTab] = useState("recent");
@@ -27,20 +29,27 @@ function NavTabs() {
   return (
     <div className="  border-gray-800">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex   sm:flex-row gap-4 items-center justify-between">
-          <div className="relative w-full sm:w-[300px]">
+        <div className="flex   sm:flex-row gap-1 items-center justify-between">
+          <div className="flex items-center w-full max-w-[800px] p-2 bg-white bg-opacity-[10%] rounded-full shadow-md outline-none">
             <Input
+              type="text"
               placeholder="How can I help you?"
-              className="pl-10 bg-gray-800 border-gray-700 rounded-full text-sm"
+              className="flex-1 bg-transparent border-none text-white placeholder-gray-400 focus:outline-none focus-visible:outline-none focus:ring-0 focus:border-transparent"
             />
-            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+            <Button
+              size="icon"
+              variant="ghost"
+              className="text-black rounded-full bg-white"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </Button>
           </div>
           <Tabs
             defaultValue="recent"
             onValueChange={setActiveTab}
             className="w-full sm:w-auto flex justify-center"
           >
-            <TabsList className="relative   bg-[#FFFFFF] bg-opacity-[10%]   rounded-full   inline-flex h-11">
+            <TabsList className="relative   bg-[#FFFFFF] bg-opacity-[10%]   rounded-full   inline-flex h-14">
               <motion.div
                 className="absolute top-0 h-full bg-white rounded-full"
                 animate={{ width: tabWidth, left: tabOffset }}
@@ -56,7 +65,7 @@ function NavTabs() {
                   key={tab}
                   value={tab}
                   ref={(el) => (tabsRef.current[index] = el)}
-                  className="relative z-10 px-4 py-2 text-sm transition-all font-semibold rounded-full text-white data-[state=active]:text-black  hover:bg-gray-500 my-1 mx-[3px] hover:bg-opacity-50"
+                  className="relative z-10 px-4 py-3 text-sm transition-all font-semibold rounded-full text-white data-[state=active]:text-black  hover:bg-gray-500 my-1 mx-[3px] hover:bg-opacity-50"
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)} stories
                 </TabsTrigger>
