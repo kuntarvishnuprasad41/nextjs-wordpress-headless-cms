@@ -1,6 +1,5 @@
 // Define the menu items
 export const mainMenu = {
-  home: "/",
   products:"/products",
   enterprice:"/enterprice",
   SMEs:"/smes",
