@@ -172,7 +172,7 @@ const Footer = () => {
           <h1>Code of conduct</h1>
           <h1>Cookie preference</h1>
         </div>
-        <div className="md:mx-auto">© 2025 ProCo & Leader. All rights reserved</div>
+        <div className="md:mx-auto">&copy; 2025 ProCo & Leader. All rights reserved</div>
       </section>
     </footer>
   );
