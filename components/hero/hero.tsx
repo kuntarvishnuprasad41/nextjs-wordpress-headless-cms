@@ -61,33 +61,57 @@ export default function Hero() {
         <Carousel
           opts={{
             align: "start",
-            loop: true,
+            loop: false,
           }}
-          className="w-full"
+          className="w-full select-none"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {[
               {
                 title: "The growing complexity of global cybersecurity",
-                image: "/placeholder.svg",
+                image: "",
                 description:
                   "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
-                image: "/placeholder.svg",
+                image: "/images/p1.png",
                 description:
                   "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "Moving from challenges to action",
-                image: "/placeholder.svg",
+                image: "/images/p2.png",
                 description:
                   "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
-                image: "/placeholder.svg",
+                image: "/images/p1.png",
+                description:
+                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+              },
+              {
+                title: "The growing complexity of global cybersecurity",
+                image: "/images/p2.png",
+                description:
+                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+              },
+              {
+                title: "The growing complexity of global cybersecurity",
+                image: "/images/p1.png",
+                description:
+                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+              },
+              {
+                title: "The growing complexity of global cybersecurity",
+                image: "/images/p2.png",
+                description:
+                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+              },
+              {
+                title: "The growing complexity of global cybersecurity",
+                image: "/images/p1.png",
                 description:
                   "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
               },
@@ -96,35 +120,54 @@ export default function Hero() {
                 key={i}
                 className={`pl-2 md:pl-4 ${
                   i === 0
-                    ? "md:basis-1/2 lg:basis-2/5 h-30"
-                    : "md:basis-1/4 lg:basis-1/5 h-30"
+                    ? "md:basis-[35%] lg:basis-1/5 h-72"
+                    : "md:basis-1/6 lg:basis-1/5 h-72"
                 }`}
               >
-                <Card className="bg-gray-800 flex flex-col justify-between h-full border-gray-700 ">
-                  <CardHeader className="p-0">
-                    <div className="relative h-48 w-full">
-                      <Image
-                        src={article.image || "/placeholder.svg"}
-                        alt={article.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-4">
-                    <h2 className="text-xl font-bold mb-2">{article.title}</h2>
-                    <p className="text-gray-400 text-sm">
-                      {article.description}
-                    </p>
-                  </CardContent>
-                  <CardFooter className="p-4 pt-0">
-                    <Button
-                      variant="ghost"
-                      className="text-gray-400 hover:text-white px-0"
+                <Card
+                  className={`bg-gray-800 flex flex-col justify-between h-full bg-cover bg-center ${
+                    i !== 0
+                      ? "text-white border-gray-700"
+                      : "bg-white text-black"
+                  }`}
+                  style={
+                    i !== 0
+                      ? {
+                          backgroundImage: `url(${
+                            article.image || "/images/p1.png"
+                          })`,
+                        }
+                      : {}
+                  }
+                >
+                  <CardContent
+                    className={`relative p-4 ${i > 0 ? "mt-auto" : ""}`}
+                  >
+                    <h2
+                      className={`text-xl font-bold mb-2 ${
+                        i !== 0 ? "text-white" : "text-black"
+                      }`}
                     >
-                      Read more <span className="ml-2">→</span>
-                    </Button>
-                  </CardFooter>
+                      {article.title}
+                    </h2>
+
+                    {i === 0 && (
+                      <p className="text-sm text-gray-600">
+                        {article.description}
+                      </p>
+                    )}
+                  </CardContent>
+
+                  {i === 0 && (
+                    <CardFooter className="relative p-4 pt-0">
+                      <Button
+                        variant="ghost"
+                        className="px-0 text-black hover:text-gray-700"
+                      >
+                        Read more <span className="ml-2">→</span>
+                      </Button>
+                    </CardFooter>
+                  )}
                 </Card>
               </CarouselItem>
             ))}
