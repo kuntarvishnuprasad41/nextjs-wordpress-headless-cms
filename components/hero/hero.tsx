@@ -28,12 +28,13 @@ export default function Hero() {
         <div className="flex gap-14">
           <div className="space-y-4">
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
-              The Young, Inexperienced Engineers Aiding Elon Musk's Government
-              Takeover
+              The Young, Inexperienced Engineers Aiding Elon Musk&apos;s
+              Government Takeover
             </h1>
             <p className="text-gray-400 text-lg">
-              Engineers between 19 and 24, most linked to Musk's companies, are
-              playing a key role as he seizes control of federal infrastructure.
+              Engineers between 19 and 24, most linked to Musk&apos;s companies,
+              are playing a key role as he seizes control of federal
+              infrastructure.
             </p>
             <Button variant="secondary" className="mt-4 rounded-full">
               Read more
@@ -71,49 +72,49 @@ export default function Hero() {
                 title: "The growing complexity of global cybersecurity",
                 image: "",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
                 image: "/images/p1.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "Moving from challenges to action",
                 image: "/images/p2.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
                 image: "/images/p1.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
                 image: "/images/p2.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
                 image: "/images/p1.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
                 image: "/images/p2.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
               {
                 title: "The growing complexity of global cybersecurity",
                 image: "/images/p1.png",
                 description:
-                  "Engineers between 19 and 24, most linked to Musk's companies, are playing a key role as he seizes control of federal infrastructure.",
+                  "Engineers between 19 and 24, most linked to Musk&apos;s companies, are playing a key role as he seizes control of federal infrastructure.",
               },
             ].map((article, i) => (
               <CarouselItem
