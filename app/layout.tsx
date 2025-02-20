@@ -69,7 +69,7 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
     >
       <div
         id="nav-container"
-        className="max-w-[1600px] mx-auto py-4 px-5 sm:px-8 flex justify-between items-center"
+        className="max-w-[1600px] mx-auto py-4 px-5 flex justify-between items-center"
       >
         <div className="flex gap-4">
           <MobileNav />
