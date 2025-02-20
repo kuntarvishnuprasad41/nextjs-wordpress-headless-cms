@@ -111,7 +111,7 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
 
 const Footer = () => {
   return (
-    <footer className="py-6 md:px-36 bg-black/20 text-sm md:text-base">
+    <footer className="py-6 md:px-36 bg-[#F6F6F6] text-sm md:text-base">
       <section className="flex flex-col gap-6 p-6">
         <Image
           src={Logo}
