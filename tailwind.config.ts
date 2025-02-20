@@ -19,7 +19,8 @@ const config = {
       },
     },
     screens:{
-      "md":"1100px"
+      "md":"768px",
+      "nav-md":"1100px"
     },
     extend: {
       fontFamily: {

@@ -95,7 +95,7 @@ const Nav = ({ className, children, id }: NavProps) => {
             ></Image>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="mx-2 hidden md:flex">
+            <div className="mx-2 hidden nav-md:flex">
               {Object.entries(mainMenu).map(([key, href]) => (
                 <Button key={href} asChild variant="ghost" size="sm">
                   <Link href={href}>
@@ -107,10 +107,10 @@ const Nav = ({ className, children, id }: NavProps) => {
           </div>
         </div>
         <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
-          <button className="border border-white rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+          <button className="border border-white rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
             Sign In
           </button>
-          <button className="hidden md:block border border-white rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+          <button className="hidden nav-md:block border border-white rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
             Subscribe
           </button>
         </div>
