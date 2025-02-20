@@ -15,23 +15,24 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import localFont from 'next/font/local'
+import localFont from "next/font/local";
 import SocialMedia from "@/components/ui/social-media";
+import Hero from "@/components/hero/hero";
 
 const accurat = localFont({
   src: [
     {
-      path: './Akkurat.ttf',
-      weight: '400',
-      style: 'normal',
+      path: "../public/fonts/Akkurat.ttf",
+      weight: "400",
+      style: "normal",
     },
     {
-      path: './Akkurat-Bold.ttf',
-      weight: '700',
-      style: 'bold',
-    }
+      path: "../public/fonts/Akkurat-Bold.ttf",
+      weight: "700",
+      style: "bold",
+    },
   ],
-})
+});
 
 export const metadata: Metadata = {
   title: "WordPress & Next.js Starter by 9d8",
@@ -51,8 +52,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn("min-h-screen font-sans antialiased", accurat.className)}>
+      <body
+        className={cn("min-h-screen font-sans antialiased", accurat.className)}
+      >
         <Nav mode="dark" />
+        {/* <Hero /> */}
         {children}
         <Footer />
         <Analytics />
@@ -64,7 +68,13 @@ export default function RootLayout({
 const Nav = ({ className, children, id, mode }: NavProps) => {
   return (
     <nav
-      className={cn(`sticky z-50 top-0 ${mode === "dark" ? "text-white bg-black" : "text-black bg-white"}`, "", className)}
+      className={cn(
+        `sticky z-50 top-0 ${
+          mode === "dark" ? "text-white bg-black" : "text-black bg-white"
+        }`,
+        "",
+        className
+      )}
       id={id}
     >
       <div
@@ -95,11 +105,23 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
             </div>
           </div>
         </div>
-        <div className="flex gap-2 md:gap-4 items-center flex-shrink-0">
-          <button className={`border ${mode === "dark" ? "border-white text-white" : "border-black text-black"} rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}>
+        <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
+          <button
+            className={`border ${
+              mode === "dark"
+                ? "border-white text-white"
+                : "border-black text-black"
+            } rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
+          >
             Sign In
           </button>
-          <button className={`hidden nav-md:block border ${mode === "dark" ? "border-white text-white" : "border-black text-black"} rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}>
+          <button
+            className={`hidden nav-md:block border ${
+              mode === "dark"
+                ? "border-white text-white"
+                : "border-black text-black"
+            } rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
+          >
             Subscribe
           </button>
         </div>
@@ -121,8 +143,14 @@ const Footer = () => {
           width={120}
           height={40}
         ></Image>
-        <div className="md:max-w-[800px] md:mx-auto md:text-wrap md:text-center">
-          ProCo & Leader is where tomorrow is realized. It is the essential source of information and ideas that make sense of a world in constant transformation. The ProCo & Leader conversation illuminates how technology is changing every aspect of our lives—from culture to business, science to design. The breakthroughs and innovations that we uncover lead to new ways of thinking, new connections, and new industries
+        <div className="md:w-[800px] md:mx-auto md:text-wrap md:text-center">
+          ProCo & Leader is where tomorrow is realized. It is the essential
+          source of information and ideas that make sense of a world in constant
+          transformation. The ProCo & Leader conversation illuminates how
+          technology is changing every aspect of our lives—from culture to
+          business, science to design. The breakthroughs and innovations that we
+          uncover lead to new ways of thinking, new connections, and new
+          industries
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="flex flex-col gap-4">
@@ -172,7 +200,9 @@ const Footer = () => {
           <h1>Code of conduct</h1>
           <h1>Cookie preference</h1>
         </div>
-        <div className="md:mx-auto">&copy; 2025 ProCo & Leader. All rights reserved</div>
+        <div className="md:mx-auto">
+          &copy; 2025 ProCo & Leader. All rights reserved
+        </div>
       </section>
     </footer>
   );

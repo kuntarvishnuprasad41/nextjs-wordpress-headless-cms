@@ -9,14 +9,16 @@ import Link from "next/link";
 import { File, Pen, Tag, Diamond, User, Folder } from "lucide-react";
 import { WordPressIcon } from "@/components/icons/wordpress";
 import { NextJsIcon } from "@/components/icons/nextjs";
+import Hero from "@/components/hero/hero";
 
 // This page is using the craft.tsx component and design system
 export default function Home() {
   return (
     <Section>
       <Container>
+        <Hero />
+        {/* <Hero /> */}
         <ToDelete />
-
       </Container>
     </Section>
   );
@@ -25,7 +27,7 @@ export default function Home() {
 // This is just some example TSX
 const ToDelete = () => {
   return (
-    <main className="space-y-6">
+    <main className="space-y-0">
       <Prose>
         <h1>
           <Balancer>Headless WordPress built with the Next.js</Balancer>
