@@ -39,7 +39,7 @@ export default function Hero() {
               Read more
             </Button>
           </div>
-          <div className="relative h-[450px] lg:h-[600px] rounded-xl overflow-hidden">
+          <div className="relative h-[370px] lg:h-[600px] rounded-xl overflow-hidden">
             <Image
               src="/images/flags.png"
               alt="International flags on display"
