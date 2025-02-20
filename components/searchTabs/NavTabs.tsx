@@ -31,10 +31,10 @@ function NavTabs() {
   }, [activeTab]);
 
   return (
-    <div className="max-w-10xl sm:md:max-w-sm w-screen border-gray-800 overflow-hidden">
-      <div className="container mx-auto px-5 py-4">
+    <div className="max-w-10xl sm:md:max-w-sm w-full border-gray-800 overflow-hidden">
+      <div className="container mx-auto md:px-5 pr-0 pl-5 py-4">
         <div className="flex flex-col md:flex-row gap-10 items-center justify-between">
-          <div className="flex items-center w-full max-w-[800px] p-2 bg-white bg-opacity-[10%] rounded-full shadow-md outline-none">
+          <div className="flex items-center w-full max-w-[800px] p-2 sm:p-0 bg-white bg-opacity-[10%] rounded-full shadow-md outline-none">
             <Input
               type="text"
               placeholder="How can I help you?"

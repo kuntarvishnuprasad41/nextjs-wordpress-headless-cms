@@ -20,7 +20,7 @@ import NavTabs from "../searchTabs/NavTabs";
 export default function Hero() {
   return (
     <div
-      className="min-h-screen  p-2  bg-gradient-to-b from-black via-gray-950 to-white
+      className="min-h-screen  p-0  bg-gradient-to-b from-black via-gray-950 to-white
  text-white"
     >
       {/* Hero Section */}
@@ -58,13 +58,13 @@ export default function Hero() {
       <NavTabs />
 
       {/* Articles Carousel */}
-      <section className="container mx-auto px-5 py-8 overflow-visible">
+      <section className="container mx-auto px-5 py-8 overflow-hidden ">
         <Carousel
           opts={{
             align: "start",
             loop: false,
           }}
-          className="w-screen  select-none"
+          className="w-screen  select-none overflow-hidden"
         >
           <CarouselContent className="-ml-2 md:-ml-4 ">
             {[
