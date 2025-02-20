@@ -18,6 +18,9 @@ const config = {
         "2xl": "1400px",
       },
     },
+    screens:{
+      "md":"1100px"
+    },
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],

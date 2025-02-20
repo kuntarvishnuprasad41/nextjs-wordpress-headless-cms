@@ -12,16 +12,27 @@ import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/site.config";
 
 import Balancer from "react-wrap-balancer";
-import Logo from "@/public/logo.svg";
+import Logo from "@/public/pro_co_leader.svg";
 import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import localFont from 'next/font/local'
 
-const font = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+const accurat = localFont({
+  src: [
+    {
+      path: './Akkurat.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './Akkurat-Bold.ttf',
+      weight: '700',
+      style: 'bold',
+    }
+  ],
+})
 
 export const metadata: Metadata = {
   title: "WordPress & Next.js Starter by 9d8",
@@ -41,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn("min-h-screen font-sans antialiased", font.variable)}>
+      <body className={cn("min-h-screen font-sans antialiased", accurat.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -66,38 +77,44 @@ const Nav = ({ className, children, id }: NavProps) => {
     >
       <div
         id="nav-container"
-        className="max-w-5xl mx-auto py-4 px-6 sm:px-8 flex justify-between items-center"
+        className="max-w-[1600px] mx-auto py-4 px-6 sm:px-8 flex justify-between items-center"
       >
-        <Link
-          className="hover:opacity-75 transition-all flex gap-4 items-center"
-          href="/"
-        >
-          <Image
-            src={Logo}
-            alt="Logo"
-            loading="eager"
-            className="dark:invert"
-            width={42}
-            height={26.44}
-          ></Image>
-          <h2 className="text-sm">{siteConfig.site_name}</h2>
-        </Link>
-        {children}
-        <div className="flex items-center gap-2">
-          <div className="mx-2 hidden md:flex">
-            {Object.entries(mainMenu).map(([key, href]) => (
-              <Button key={href} asChild variant="ghost" size="sm">
-                <Link href={href}>
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                </Link>
-              </Button>
-            ))}
-          </div>
-          {/* <Button asChild className="hidden sm:flex">
-            <Link href="https://github.com/9d8dev/next-wp">Get Started</Link>
-          </Button> */}
+        <div className="flex gap-4">
           <MobileNav />
+          <Link
+            className="hover:opacity-75 transition-all flex gap-4 items-center flex-shrink-0"
+            href="/"
+          >
+            <Image
+              src={Logo}
+              alt="Logo"
+              loading="eager"
+              className="dark:invert"
+              width={100}
+              height={52}
+            ></Image>
+          </Link>
+          <div className="flex items-center gap-2">
+            <div className="mx-2 hidden md:flex">
+              {Object.entries(mainMenu).map(([key, href]) => (
+                <Button key={href} asChild variant="ghost" size="sm">
+                  <Link href={href}>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
+        <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
+          <button className="border border-white rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+            Sign In
+          </button>
+          <button className="hidden md:block border border-white rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+            Subscribe
+          </button>
+        </div>
+        {children}
       </div>
     </nav>
   );
