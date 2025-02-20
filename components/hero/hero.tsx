@@ -96,11 +96,11 @@ export default function Hero() {
                 key={i}
                 className={`pl-2 md:pl-4 ${
                   i === 0
-                    ? "md:basis-1/2 lg:basis-2/5"
-                    : "md:basis-1/3 lg:basis-1/5"
+                    ? "md:basis-1/2 lg:basis-2/5 h-30"
+                    : "md:basis-1/4 lg:basis-1/5 h-30"
                 }`}
               >
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className="bg-gray-800 flex flex-col justify-between h-full border-gray-700 ">
                   <CardHeader className="p-0">
                     <div className="relative h-48 w-full">
                       <Image
@@ -129,10 +129,6 @@ export default function Hero() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="hidden md:block">
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2" />
-          </div>
         </Carousel>
       </section>
     </div>

@@ -17,7 +17,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import SocialMedia from "@/components/ui/social-media";
-import Hero from "@/components/hero/hero";
 
 const accurat = localFont({
   src: [
@@ -56,7 +55,6 @@ export default function RootLayout({
         className={cn("min-h-screen font-sans antialiased", accurat.className)}
       >
         <Nav mode="dark" />
-        {/* <Hero /> */}
         {children}
         <Footer />
         <Analytics />
