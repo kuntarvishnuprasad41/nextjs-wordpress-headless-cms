@@ -64,7 +64,9 @@ function NavTabs() {
                 <TabsTrigger
                   key={tab}
                   value={tab}
-                  ref={(el) => (tabsRef.current[index] = el)}
+                  ref={(el) => {
+                    tabsRef.current[index] = el;
+                  }}
                   className="relative z-10 px-4 py-3 text-sm transition-all font-semibold rounded-full text-white data-[state=active]:text-black  hover:bg-gray-500 my-1 mx-[3px] hover:bg-opacity-50"
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)} stories
