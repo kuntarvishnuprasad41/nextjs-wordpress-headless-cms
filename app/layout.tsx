@@ -51,7 +51,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body
-        className={cn("min-h-screen font-sans antialiased", accurat.className)}
+        className={cn(
+          "min-h-screen font-sans antialiased overflow-hidden",
+          accurat.className
+        )}
       >
         <Nav mode="dark" />
         {children}
