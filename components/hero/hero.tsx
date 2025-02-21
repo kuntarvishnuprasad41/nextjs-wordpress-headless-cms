@@ -21,7 +21,7 @@ export default function Hero() {
   return (
     <div
       className="min-h-screen  p-0  bg-gradient-to-b from-black via-gray-950 to-white
- text-white"
+ text-white  overflow-hidden"
     >
       {/* Hero Section */}
       <section className="container mx-auto px-8 py-8 max-w-10xl">
@@ -58,7 +58,7 @@ export default function Hero() {
       <NavTabs />
 
       {/* Articles Carousel */}
-      <section className="container mx-auto px-5 py-8 overflow-hidden ">
+      <section className="container mx-auto px-5 py-8 overflow-visible  scrollbar-hide">
         <Carousel
           opts={{
             align: "start",
