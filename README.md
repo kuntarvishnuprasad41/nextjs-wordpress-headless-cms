@@ -186,8 +186,261 @@ To render menus dynamically:
 
 ---
 
-## 5. Next Steps
+## 5. Reader Registration, Comments, and Article Saving
 
-- Implement API calls using `useDataFetchWP` hook.
-- Add pagination and search handling.
-- Optimize API requests using SWR or React Query.
+### **Enable User Registration**
+
+#### **Register a New User**
+
+```http
+POST /wp-json/wp/v2/users/register
+```
+
+Request body:
+
+```json
+{
+  "username": "exampleuser",
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+### **User Login**
+
+```http
+POST /wp-json/jwt-auth/v1/token
+```
+
+Request body:
+
+```json
+{
+  "username": "exampleuser",
+  "password": "securepassword"
+}
+```
+
+### **Allow Users to Comment on Articles**
+
+#### **Fetch Comments for a Post**
+
+```http
+GET /wp-json/wp/v2/comments?post=<post_id>
+```
+
+#### **Submit a New Comment**
+
+```http
+POST /wp-json/wp/v2/comments
+```
+
+Request body:
+
+```json
+{
+  "post": <post_id>,
+  "content": "This is a great article!",
+  "author_email": "user@example.com",
+  "author_name": "John Doe"
+}
+```
+
+### **Reply to a Comment**
+
+```http
+POST /wp-json/wp/v2/comments
+```
+
+Request body:
+
+```json
+{
+  "post": <post_id>,
+  "parent": <comment_id>,
+  "content": "Thanks for your feedback!"
+}
+```
+
+Header:
+
+```
+Authorization: Bearer your_jwt_token
+
+```
+
+# Saved Articles API
+
+This API allows authenticated users to save, retrieve, and remove saved articles in WordPress using the REST API.
+
+## Authentication
+
+All requests require authentication using **JWT tokens**.
+
+- Obtain a JWT token by logging in:
+  ```http
+  POST /wp-json/jwt-auth/v1/token
+  Content-Type: application/json
+  ```
+  **Request Body:**
+  ```json
+  {
+    "username": "your_username",
+    "password": "your_password"
+  }
+  ```
+  **Response:**
+  ```json
+  {
+    "token": "your_jwt_token",
+    "user_email": "user@example.com",
+    "user_display_name": "Example User"
+  }
+  ```
+
+## Endpoints
+
+### 1. Save an Article
+
+**Endpoint:**
+
+```http
+POST /wp-json/custom/v1/save-article
+Authorization: Bearer your_jwt_token
+Content-Type: application/json
+```
+
+**Request Body:**
+
+```json
+{
+  "post_id": 123
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "saved_articles": [123, 456]
+}
+```
+
+### 2. Get Saved Articles
+
+**Endpoint:**
+
+```http
+GET /wp-json/custom/v1/saved-articles
+Authorization: Bearer your_jwt_token
+```
+
+**Response:**
+
+```json
+[123, 456]
+```
+
+### 3. Remove a Saved Article
+
+**Endpoint:**
+
+```http
+POST /wp-json/custom/v1/remove-article
+Authorization: Bearer your_jwt_token
+Content-Type: application/json
+```
+
+**Request Body:**
+
+```json
+{
+  "post_id": 123
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "saved_articles": [456]
+}
+```
+
+## Implementation in WordPress
+
+### Register Custom Endpoints
+
+Add the following code to your WordPress `functions.php` or a custom plugin:
+
+```php
+function save_favorite_article() {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    if (!$post_id || !get_post($post_id)) {
+        return new WP_Error('invalid_post', 'Invalid post ID.', array('status' => 400));
+    }
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    $saved_articles = is_array($saved_articles) ? $saved_articles : [];
+    if (!in_array($post_id, $saved_articles)) {
+        $saved_articles[] = $post_id;
+        update_user_meta($user_id, 'saved_articles', $saved_articles);
+    }
+    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
+}
+
+function get_saved_articles() {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    return rest_ensure_response($saved_articles ?: []);
+}
+
+function remove_saved_article() {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    if (($key = array_search($post_id, $saved_articles)) !== false) {
+        unset($saved_articles[$key]);
+        update_user_meta($user_id, 'saved_articles', array_values($saved_articles));
+    }
+    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
+}
+
+function register_saved_articles_routes() {
+    register_rest_route('custom/v1', '/save-article', array(
+        'methods' => 'POST',
+        'callback' => 'save_favorite_article',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('custom/v1', '/saved-articles', array(
+        'methods' => 'GET',
+        'callback' => 'get_saved_articles',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('custom/v1', '/remove-article', array(
+        'methods' => 'POST',
+        'callback' => 'remove_saved_article',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+}
+add_action('rest_api_init', 'register_saved_articles_routes');
+```
