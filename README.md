@@ -37,6 +37,149 @@ add_action('rest_api_init', 'register_menu_api_routes');
 
 ```
 
+wp.config.php
+
+```
+define('JWT_AUTH_SECRET_KEY', 'STRONG KEY');
+
+```
+
+Installations:
+
+1. JWT Authentication for WP-API
+2. REST API | Custom API Generator For Cross Platform And Import Export In WP
+3. WP REST API - OAuth 1.0a Server
+
+Add the following code to your WordPress `functions.php` or a custom plugin:
+
+```php
+function save_favorite_article(WP_REST_Request $request) {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+
+    // Get JSON input
+    $params = $request->get_json_params();
+    $post_id = isset($params['post_id']) ? intval($params['post_id']) : 0;
+
+    if (!$post_id || !get_post($post_id)) {
+        return new WP_Error('invalid_post', 'Invalid post ID.', array('status' => 400));
+    }
+
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    $saved_articles = is_array($saved_articles) ? $saved_articles : [];
+
+    if (!in_array($post_id, $saved_articles)) {
+        $saved_articles[] = $post_id;
+        update_user_meta($user_id, 'saved_articles', $saved_articles);
+    }
+
+    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
+}
+
+function get_saved_articles() {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    return rest_ensure_response($saved_articles ?: []);
+}
+
+function remove_saved_article(WP_REST_Request $request) {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+
+    // Get JSON input
+    $params = $request->get_json_params();
+    $post_id = isset($params['post_id']) ? intval($params['post_id']) : 0;
+
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    if (($key = array_search($post_id, $saved_articles)) !== false) {
+        unset($saved_articles[$key]);
+        update_user_meta($user_id, 'saved_articles', array_values($saved_articles));
+    }
+
+    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
+}
+
+function register_saved_articles_routes() {
+    register_rest_route('custom/v1', '/save-article', array(
+        'methods' => 'POST',
+        'callback' => 'save_favorite_article',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('custom/v1', '/saved-articles', array(
+        'methods' => 'GET',
+        'callback' => 'get_saved_articles',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('custom/v1', '/remove-article', array(
+        'methods' => 'POST',
+        'callback' => 'remove_saved_article',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+}
+add_action('rest_api_init', 'register_saved_articles_routes');
+
+```
+
+functions.php
+
+```php
+function custom_wp_register_user(WP_REST_Request $request) {
+    $parameters = $request->get_json_params();
+
+    $username = sanitize_text_field($parameters['username']);
+    $email = sanitize_email($parameters['email']);
+    $password = sanitize_text_field($parameters['password']);
+
+    if (empty($username) || empty($email) || empty($password)) {
+        return new WP_Error('missing_fields', 'Please provide username, email, and password.', ['status' => 400]);
+    }
+
+    if (username_exists($username) || email_exists($email)) {
+        return new WP_Error('user_exists', 'Username or email already exists.', ['status' => 400]);
+    }
+
+    $user_id = wp_create_user($username, $password, $email);
+
+    if (is_wp_error($user_id)) {
+        return new WP_Error('registration_failed', 'User registration failed.', ['status' => 400]);
+    }
+
+    return rest_ensure_response([
+        'id' => $user_id,
+        'username' => $username,
+        'email' => $email,
+        'message' => 'User registered successfully!'
+    ]);
+}
+
+function register_wp_rest_user_endpoint() {
+    register_rest_route('wp/v2', '/users/register', [
+        'methods'  => 'POST',
+        'callback' => 'custom_wp_register_user',
+        'permission_callback' => '__return_true', // Allows public access (optional)
+    ]);
+}
+
+add_action('rest_api_init', 'register_wp_rest_user_endpoint');
+
+```
+
 # Next.js + WordPress Integration steps
 
 ---
@@ -372,75 +515,3 @@ Content-Type: application/json
 ## Implementation in WordPress
 
 ### Register Custom Endpoints
-
-Add the following code to your WordPress `functions.php` or a custom plugin:
-
-```php
-function save_favorite_article() {
-    $user_id = get_current_user_id();
-    if (!$user_id) {
-        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
-    }
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    if (!$post_id || !get_post($post_id)) {
-        return new WP_Error('invalid_post', 'Invalid post ID.', array('status' => 400));
-    }
-    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
-    $saved_articles = is_array($saved_articles) ? $saved_articles : [];
-    if (!in_array($post_id, $saved_articles)) {
-        $saved_articles[] = $post_id;
-        update_user_meta($user_id, 'saved_articles', $saved_articles);
-    }
-    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
-}
-
-function get_saved_articles() {
-    $user_id = get_current_user_id();
-    if (!$user_id) {
-        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
-    }
-    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
-    return rest_ensure_response($saved_articles ?: []);
-}
-
-function remove_saved_article() {
-    $user_id = get_current_user_id();
-    if (!$user_id) {
-        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
-    }
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
-    if (($key = array_search($post_id, $saved_articles)) !== false) {
-        unset($saved_articles[$key]);
-        update_user_meta($user_id, 'saved_articles', array_values($saved_articles));
-    }
-    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
-}
-
-function register_saved_articles_routes() {
-    register_rest_route('custom/v1', '/save-article', array(
-        'methods' => 'POST',
-        'callback' => 'save_favorite_article',
-        'permission_callback' => function () {
-            return is_user_logged_in();
-        }
-    ));
-
-    register_rest_route('custom/v1', '/saved-articles', array(
-        'methods' => 'GET',
-        'callback' => 'get_saved_articles',
-        'permission_callback' => function () {
-            return is_user_logged_in();
-        }
-    ));
-
-    register_rest_route('custom/v1', '/remove-article', array(
-        'methods' => 'POST',
-        'callback' => 'remove_saved_article',
-        'permission_callback' => function () {
-            return is_user_logged_in();
-        }
-    ));
-}
-add_action('rest_api_init', 'register_saved_articles_routes');
-```
