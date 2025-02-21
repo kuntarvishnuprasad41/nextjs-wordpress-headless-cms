@@ -405,9 +405,22 @@ Request body:
 }
 ```
 
+## Get post by id
+
+```
+ GET /wp-json/wp/v2/posts/123
+```
+
+##Get multiple post by id
+
+```
+GET /wp-json/wp/v2/posts?include=1,6,789
+```
+
 Header:
 
 ```
+
 Authorization: Bearer your_jwt_token
 
 ```
@@ -425,21 +438,27 @@ All requests require authentication using **JWT tokens**.
   POST /wp-json/jwt-auth/v1/token
   Content-Type: application/json
   ```
-  **Request Body:**
-  ```json
-  {
-    "username": "your_username",
-    "password": "your_password"
-  }
-  ```
-  **Response:**
-  ```json
-  {
-    "token": "your_jwt_token",
-    "user_email": "user@example.com",
-    "user_display_name": "Example User"
-  }
-  ```
+
+````
+
+**Request Body:**
+
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+```
+
+**Response:**
+
+```json
+{
+  "token": "your_jwt_token",
+  "user_email": "user@example.com",
+  "user_display_name": "Example User"
+}
+```
 
 ## Endpoints
 
@@ -515,3 +534,4 @@ Content-Type: application/json
 ## Implementation in WordPress
 
 ### Register Custom Endpoints
+````
