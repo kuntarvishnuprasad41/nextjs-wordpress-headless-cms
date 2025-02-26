@@ -10,6 +10,7 @@ import { File, Pen, Tag, Diamond, User, Folder } from "lucide-react";
 import { WordPressIcon } from "@/components/icons/wordpress";
 import { NextJsIcon } from "@/components/icons/nextjs";
 import Hero from "@/components/hero/hero";
+import NewsOverview from "@/components/majorArticles/NewsOverview";
 
 // This page is using the craft.tsx component and design system
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
     <Section>
       <Container>
         <Hero />
+        <NewsOverview />
         {/* <Hero /> */}
         {/* <ToDelete /> */}
       </Container>
