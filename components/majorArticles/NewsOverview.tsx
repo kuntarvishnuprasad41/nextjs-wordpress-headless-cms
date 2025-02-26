@@ -6,8 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 function NewsOverview() {
   return (
     <div className="min-h-screen  p-0    overflow-hidden">
-      <section className="container mx-auto px-8 py-8 max-w-10xl">
-        <div className="flex flex-row gap-14 sm:gap-2">
+      <section className="md:container mx-auto px:0 py-8 max-w-10xl">
+        <div className="flex flex-col md:flex-row px-6 md:px-0  gap-14 sm:gap-2">
           <div className=" overflow-hidden rounded-lg">
             <Image
               src="/images/plane.png"
@@ -20,7 +20,7 @@ function NewsOverview() {
           </div>
           <div className="flex flex-col justify-between">
             <div className="space-y-4">
-              <h1 className="text-3xl md:text-4xl font-bold leading-tight">
+              <h1 className="text-2xl md:text-4xl font-bold leading-tight justify-normal">
                 The Young, Inexperienced Engineers Aiding Elon Musk's Government
                 Takeover
               </h1>
@@ -36,7 +36,7 @@ function NewsOverview() {
         <br />
 
         {/* Related Articles */}
-        <div className="flex w-full max-w-10xl gap-0 -ml-5 sm:ml-0">
+        <div className=" flex  flex-col md:flex-row gap-2  w-full max-w-10xl md:gap-0 md:-ml-5 sm:ml-0">
           {[
             {
               title:
@@ -64,8 +64,10 @@ function NewsOverview() {
           ].map((article, index, arr) => (
             <div
               key={index}
-              className={`w-full h-[100px] flex items-stretch pr-1
-    ${index !== arr.length - 1 ? "border-r border-gray-300" : ""}`}
+              className={`w-full flex items-stretch pr-1 mt-2 border-gray-300
+        ${
+          index !== arr.length - 1 ? "border-b md:border-b-0 md:border-r" : ""
+        }`}
             >
               <Card
                 className={`overflow-hidden w-full   shadow-none flex flex-row-reverse justify-start text-start h-[100px] border-none rounded-none border-r border-gray-300 last:border-r-0`}
@@ -75,9 +77,9 @@ function NewsOverview() {
                     <Image
                       src={article.image || "/placeholder.svg"}
                       alt={article.title}
-                      height={200}
-                      width={200}
-                      className="rounded-lg"
+                      height={100}
+                      width={120}
+                      className="rounded-lg max-w-[110px]"
                     />
                   </div>
                 </CardHeader>
