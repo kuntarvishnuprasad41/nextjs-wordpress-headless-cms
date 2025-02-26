@@ -21,15 +21,16 @@ function NewsOverview() {
           <div className="flex flex-col justify-between">
             <div className="space-y-4">
               <h1 className="text-2xl md:text-4xl font-bold leading-tight justify-normal">
-                The Young, Inexperienced Engineers Aiding Elon Musk's Government
-                Takeover
+                The Young, Inexperienced Engineers Aiding Elon Musk&apos;s
+                Government Takeover
               </h1>
               <p className="text-lg text-black">VITTORIO ELLIOT</p>
             </div>
             <p className="text-lg text-muted-foreground">
-              Engineers between 19 and 24, most linked to Musk's companies, are
-              playing a key role as he seizes control of federal infrastructure.
-              Engineers between 19 and 24, most linked to Musk's companies.
+              Engineers between 19 and 24, most linked to Musk&apos;s companies,
+              are playing a key role as he seizes control of federal
+              infrastructure. Engineers between 19 and 24, most linked to
+              Musk&apos;s companies.
             </p>
           </div>
         </div>
