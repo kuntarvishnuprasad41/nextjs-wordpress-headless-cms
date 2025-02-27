@@ -32,7 +32,7 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
             <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
         </div>
         <div className="border-t border-t-black py-4 grid grid-cols-4 gap-3">
-            {categories.length > 0 && categories.map((item: any) => {
+            {categories.length > 0 && categories.slice(0,4).map((item: any) => {
                 return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
             })}
         </div>
