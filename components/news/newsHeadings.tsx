@@ -26,7 +26,6 @@ export const NewsHeadings = ({ news, category }: { news: any, category: string }
 }
 
 export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
-    console.log(data);
     const { categories } = data
     return <div className="flex flex-col max-w-[1600px] mx-auto gap-[1px] px-20">
         <div>
