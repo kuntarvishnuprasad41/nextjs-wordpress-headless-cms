@@ -12,6 +12,7 @@ import { NextJsIcon } from "@/components/icons/nextjs";
 import Hero from "@/components/hero/hero";
 import {NewsHeadingsSectionOne } from "@/components/news/newsHeadings";
 import { fetchDataFn } from "@/lib/fetch";
+import NewsOverview from "@/components/majorArticles/NewsOverview";
 
 // This page is using the craft.tsx component and design system
 export default async function Home() {
@@ -21,6 +22,7 @@ export default async function Home() {
       <Container>
         <Hero />
         <NewsHeadingsSectionOne data={headingSectionOne}/>
+        <NewsOverview />
         {/* <Hero /> */}
         {/* <ToDelete /> */}
       </Container>
