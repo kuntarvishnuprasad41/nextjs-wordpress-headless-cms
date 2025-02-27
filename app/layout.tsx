@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import SocialMedia from "@/components/ui/social-media";
 import { fetchDataFn } from "@/lib/fetch";
-import { StateWrapper } from "@/components/stateWrapper"
 const accurat = localFont({
   src: [
     {
@@ -56,12 +55,11 @@ export default async function RootLayout({
           accurat.className
         )}
       >
-        <StateWrapper data={productJson}>
-          <Nav mode="dark" />
-          {children}
-          <Footer />
-          <Analytics />
-        </StateWrapper>
+
+        <Nav mode="dark" />
+        {children}
+        <Footer />
+        <Analytics />
       </body>
     </html>
   );

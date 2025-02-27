@@ -10,16 +10,17 @@ import { File, Pen, Tag, Diamond, User, Folder } from "lucide-react";
 import { WordPressIcon } from "@/components/icons/wordpress";
 import { NextJsIcon } from "@/components/icons/nextjs";
 import Hero from "@/components/hero/hero";
-import { NewsHeadings, News, ProductNewsHeadings } from "@/components/news/newsHeadings";
+import {NewsHeadingsSectionOne } from "@/components/news/newsHeadings";
+import { fetchDataFn } from "@/lib/fetch";
 
 // This page is using the craft.tsx component and design system
 export default async function Home() {
-  
+  const [headingSectionOne,...restHeadings] = await fetchDataFn("/wp-json/wp/v2/home-headlines")
   return (
     <Section>
       <Container>
         <Hero />
-        <ProductNewsHeadings />
+        <NewsHeadingsSectionOne data={headingSectionOne}/>
         {/* <Hero /> */}
         {/* <ToDelete /> */}
       </Container>
