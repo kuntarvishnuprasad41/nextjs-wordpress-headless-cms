@@ -2,10 +2,10 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export const NewsHeadings = ({ news, category }: { news: any, category: string }) => {
+export const NewsHeadings = ({ news, category }: { news: any, category: string | undefined }) => {
     const [firstItem] = news
     return <div className="flex flex-col gap-2 p-2">
-        <h1 className="uppercase text-black/60">{category}</h1>
+        {category && <h1 className="uppercase text-black/60">{category}</h1>}
         <div className="flex flex-col gap-2">
             <Link href={"#"}>
                 <Image src={firstItem.featured_image.url} alt="Description Image" width={200} height={160}
