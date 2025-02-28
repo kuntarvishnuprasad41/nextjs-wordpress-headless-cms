@@ -46,7 +46,7 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
 
 }
 export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any }) => {
-    console.log("dsASD", data.posts);
+    console.log("dsASD", data.posts.slice);
     return <div className="container grid grid-cols-2 gap-7 p-3">
         {
 
@@ -55,7 +55,8 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
                     <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
                 </div>
                 <div className="border-t border-t-black py-4 grid grid-cols-2 gap-3">
-                    <NewsHeadings news={data.posts} />
+                    <NewsHeadings news={data.posts.slice(0,3)} />
+                    <NewsHeadings news={data.posts.slice(3)} />
                 </div>
             </div>
 
@@ -66,7 +67,8 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
                         <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data1?.name}</span>
                     </div>
                     <div className="border-t border-t-black py-4 grid grid-cols-2 gap-3">
-                        <NewsHeadings news={data1.posts} />
+                        <NewsHeadings news={data1.posts.slice(0,3)} />
+                        <NewsHeadings news={data1.posts.slice(3)} />
 
                     </div>
                 </div>
