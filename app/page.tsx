@@ -18,7 +18,6 @@ import NewsOverview from "@/components/majorArticles/NewsOverview";
 export default async function Home() {
   const { headlinesSectionOne, headlinesSectionTwo,headlinesSectionThree } = await fetchDataFn("/wp-json/wp/v2/home-headlines")
   const [headlinesSectionTwo1, headlinesSectionTwo2] = headlinesSectionTwo
-  console.log(headlinesSectionThree);
   
   return (
     <Section>
