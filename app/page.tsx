@@ -16,13 +16,14 @@ import NewsOverview from "@/components/majorArticles/NewsOverview";
 
 // This page is using the craft.tsx component and design system
 export default async function Home() {
-  const [headingSectionOne, headingSectionTwo, headingSectionTwo1, ...restHeadings] = await fetchDataFn("/wp-json/wp/v2/home-headlines")
+  const { headlinesSectionOne, headlinesSectionTwo } = await fetchDataFn("/wp-json/wp/v2/home-headlines")
+  const [headlinesSectionTwo1, headlinesSectionTwo2] = headlinesSectionTwo
   return (
     <Section>
       <Container>
         <Hero />
-        <NewsHeadingsSectionOne data={headingSectionOne} />
-        <NewsHeadingsSectionTwo data={headingSectionTwo} data1={headingSectionTwo1} />
+        <NewsHeadingsSectionOne data={headlinesSectionOne} />
+        <NewsHeadingsSectionTwo data={headlinesSectionTwo1} data1={headlinesSectionTwo2} />
         <NewsOverview />
         {/* <Hero /> */}
         {/* <ToDelete /> */}
