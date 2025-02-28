@@ -8,7 +8,7 @@ export const NewsHeadings = ({ news, category }: { news: any, category?: string 
         {category && <h1 className="uppercase text-black/60">{category}</h1>}
         <div className="flex flex-col gap-2">
             <Link href={"#"}>
-                <Image src={firstItem.featured_image.url} alt="Description Image" width={200} height={160}
+                <Image src={firstItem?.featured_image?.url} alt="Description Image" width={200} height={160}
                     className="w-[100%] rounded-xl h-[200px]"
                 />
             </Link>
