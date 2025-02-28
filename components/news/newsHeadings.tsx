@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export const NewsHeadings = ({ news, category }: { news: any, category?: string | undefined }) => {
     const [firstItem] = news
-    return <div className="flex flex-col gap-2 p-2">
+    return <div className="flex flex-col gap-2">
         {category && <h1 className="uppercase text-black/60">{category}</h1>}
         <div className="flex flex-col gap-2">
             <Link href={"#"}>
@@ -32,7 +32,7 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
             <div>
                 <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
             </div>
-            <div className="border-t border-t-black py-4 grid grid-cols-4 gap-3">
+            <div className="border-t border-t-black py-4 grid grid-cols-4 gap-5">
                 {categories.length > 0 && categories.slice(0, 4).map((item: any) => {
                     return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
                 })}
@@ -51,7 +51,7 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
                 <div>
                     <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
                 </div>
-                <div className="border-t border-t-black py-4 grid grid-cols-2 gap-3">
+                <div className="border-t border-t-black py-4 grid grid-cols-2 gap-5">
                     <NewsHeadings news={data.posts.slice(0, 3)} />
                     <NewsHeadings news={data.posts.slice(3)} />
                 </div>
@@ -63,7 +63,7 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
                 <div>
                     <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data1?.name}</span>
                 </div>
-                <div className="border-t border-t-black py-4 grid grid-cols-2 gap-3">
+                <div className="border-t border-t-black py-4 grid grid-cols-2 gap-5">
                     <NewsHeadings news={data1.posts.slice(0, 3)} />
                     <NewsHeadings news={data1.posts.slice(3)} />
 
@@ -73,7 +73,7 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
     </div>
 }
 export const NewsHeadingsSectionThree = ({ data }: { data: any }) => {
-    return <div className="container grid grid-cols-4 gap-3 p-3">
+    return <div className="container grid grid-cols-4 gap-5 p-3">
 
         {
             data.map((item: any, index: number) => {
