@@ -44,7 +44,7 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
 
 }
 export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any }) => {
-    return <div className="container grid grid-cols-2 gap-7 p-3">
+    return <div className="container grid grid-cols-2 gap-3 p-3">
         {
 
             <div className="flex flex-col gap-[1px] px-2">
@@ -73,7 +73,7 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
     </div>
 }
 export const NewsHeadingsSectionThree = ({ data }: { data: any }) => {
-    return <div className="container grid grid-cols-4 gap-7 p-3">
+    return <div className="container grid grid-cols-4 gap-3 p-3">
 
         {
             data.map((item: any, index: number) => {
