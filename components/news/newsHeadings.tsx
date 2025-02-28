@@ -27,27 +27,31 @@ export const NewsHeadings = ({ news, category }: { news: any, category?: string 
 
 export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
     const { categories } = data
-    return <div className="flex flex-col max-w-[1600px] mx-auto gap-[1px] px-20">
-        <div>
-            <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
-        </div>
-        <div className="border-t border-t-black py-4 grid grid-cols-4 gap-3">
-            {categories.length > 0 && categories.slice(0, 4).map((item: any) => {
-                return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
-            })}
-        </div>
+    return <div className="container p-3">
+        <div className="flex flex-col mx-auto gap-[1px] p-2">
+            <div>
+                <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
+            </div>
+            <div className="border-t border-t-black py-4 grid grid-cols-4 gap-3">
+                {categories.length > 0 && categories.slice(0, 4).map((item: any) => {
+                    return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
+                })}
+            </div>
 
+        </div>
     </div>
+
+
 }
 export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any }) => {
     console.log(data);
-    
+
     const { categories = [] } = data || []
     const { categories: categories1 = [] } = data1 || []
-    return <div className="max-w-[1600px] mx-auto grid grid-cols-2 gap-7 px-20">
+    return <div className="container grid grid-cols-2 gap-7 p-3">
         {
             categories.length > 0 && (
-                <div className="flex flex-col gap-[1px]">
+                <div className="flex flex-col gap-[1px] px-2">
                     <div>
                         <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
                     </div>
