@@ -64,11 +64,8 @@ async function wordpressFetch<T>(
   url: string,
   options: FetchOptions = {}
 ): Promise<T> {
-  
-
   const headersList = await headers();
   const userAgent = headersList.get("user-agent") || "Next.js WordPress Client";
- 
 
   const response = await fetch(url, {
     ...defaultFetchOptions,
@@ -405,6 +402,8 @@ export async function getPostsByTagSlug(tagSlug: string): Promise<Post[]> {
 }
 
 export async function getFeaturedMediaById(id: number): Promise<FeaturedMedia> {
+  
+
   const url = getUrl(`/wp-json/wp/v2/media/${id}`);
   const response = await wordpressFetch<FeaturedMedia>(url, {
     next: {
