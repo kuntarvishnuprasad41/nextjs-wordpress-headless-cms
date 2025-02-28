@@ -6,19 +6,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 function NewsOverview() {
   return (
     <div className="min-h-screen  p-0    overflow-hidden">
-      <section className="md:container mx-auto px:0 py-8 max-w-10xl">
-        <div className="flex flex-col md:flex-row px-6 md:px-0  gap-14 sm:gap-2">
+      <section className="md:container mx-auto px:0 py-8 max-w-10xl px-0  ">
+        <div className="flex flex-col mx-auto md:-ml-3   md:flex-row px-5  md:px-0  gap-14 sm:gap-2 w-full  ">
           <div className=" overflow-hidden rounded-lg">
             <Image
               src="/images/plane.png"
               alt="Stylized illustration of an airplane over Paris"
               width={1920}
               height={872}
-              className="object-cover"
+              className=""
               priority
             />
           </div>
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between w-full">
             <div className="space-y-4">
               <h1 className="text-2xl md:text-4xl font-bold leading-tight justify-normal">
                 The Young, Inexperienced Engineers Aiding Elon Musk&apos;s
@@ -37,7 +37,7 @@ function NewsOverview() {
         <br />
 
         {/* Related Articles */}
-        <div className=" flex  flex-col md:flex-row gap-2  w-full max-w-10xl md:gap-0 md:-ml-5 sm:ml-0">
+        <div className=" flex  flex-col md:flex-row gap-2  w-full max-w-10xl md:gap-0 md:-ml-9 sm:ml-0">
           {[
             {
               title:
@@ -71,7 +71,7 @@ function NewsOverview() {
         }`}
             >
               <Card
-                className={`overflow-hidden w-full   shadow-none flex flex-row-reverse justify-start text-start h-[100px] border-none rounded-none border-r border-gray-300 last:border-r-0`}
+                className={` overflow-hidden w-full   shadow-none flex flex-row-reverse justify-start text-start h-[100px] border-none rounded-none border-r border-gray-300 last:border-r-0 px-0 pl-0 pr-0 p-0`}
               >
                 <CardHeader className="p-0">
                   <div className=" ">
