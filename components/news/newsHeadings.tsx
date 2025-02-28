@@ -3,8 +3,6 @@ import Image from "next/image"
 import Link from "next/link"
 
 export const NewsHeadings = ({ news, category }: { news: any, category?: string | undefined }) => {
-    console.log(news);
-
     const [firstItem] = news
     return <div className="flex flex-col gap-2 p-2">
         {category && <h1 className="uppercase text-black/60">{category}</h1>}
@@ -46,7 +44,6 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
 
 }
 export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any }) => {
-    console.log("dsASD", data.posts.slice);
     return <div className="container grid grid-cols-2 gap-7 p-3">
         {
 
