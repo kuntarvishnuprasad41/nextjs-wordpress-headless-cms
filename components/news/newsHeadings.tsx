@@ -9,12 +9,12 @@ export const NewsHeadings = ({ news, category }: { news: any, category?: string 
         <div className="flex flex-col gap-2">
             <Link href={"#"}>
                 <Image src={firstItem?.featured_image?.url} alt="Description Image" width={200} height={160}
-                    className="w-[100%] rounded-xl h-[200px]"
+                    className="w-[100%] rounded-xl h-[200px] object-cover"
                 />
             </Link>
             {
                 news.length > 0 && news.slice(0, 3).map((item: any, index: number) => {
-                    return <Link href={"#"} key={index} className="font-semibold break-all border-b pb-2">
+                    return <Link href={"#"} key={index} className="font-bold md:text-xl break-all border-b pb-2">
                         <h1>
                             {item.title}
                         </h1>
@@ -32,7 +32,7 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
             <div>
                 <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
             </div>
-            <div className="border-t border-t-black py-4 grid grid-cols-4 gap-7">
+            <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-4 gap-7">
                 {categories.length > 0 && categories.slice(0, 4).map((item: any) => {
                     return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
                 })}
@@ -44,14 +44,14 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
 
 }
 export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any }) => {
-    return <div className="container grid grid-cols-2 gap-7 p-3">
+    return <div className="container grid grid-cols-1 md:grid-cols-2 gap-7 p-3">
         {
 
             <div className="flex flex-col gap-[1px]">
                 <div>
                     <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
                 </div>
-                <div className="border-t border-t-black py-4 grid grid-cols-2 gap-7">
+                <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-2 gap-7">
                     <NewsHeadings news={data.posts.slice(0, 3)} />
                     <NewsHeadings news={data.posts.slice(3)} />
                 </div>
@@ -63,17 +63,16 @@ export const NewsHeadingsSectionTwo = ({ data1, data }: { data: any, data1: any 
                 <div>
                     <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data1?.name}</span>
                 </div>
-                <div className="border-t border-t-black py-4 grid grid-cols-2 gap-5">
+                <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-2 gap-7">
                     <NewsHeadings news={data1.posts.slice(0, 3)} />
                     <NewsHeadings news={data1.posts.slice(3)} />
-
                 </div>
             </div>
         }
     </div>
 }
 export const NewsHeadingsSectionThree = ({ data }: { data: any }) => {
-    return <div className="container grid grid-cols-4 gap-7 p-3">
+    return <div className="container grid grid-cols-1 md:grid-cols-4 gap-7 p-3">
 
         {
             data.map((item: any, index: number) => {
