@@ -37,7 +37,7 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
                     return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
                 })}
                 <div>
-                    <Image alt="ad" className="md:w-full w-[400px] h-[550px] md:h-full md:object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
+                    <Image alt="ad" className="md:w-full w-[300px] mx-auto md:mx-0 h-[450px] md:h-full object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
                 </div>
             </div>
 
