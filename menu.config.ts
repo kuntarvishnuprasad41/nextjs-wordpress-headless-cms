@@ -3,7 +3,7 @@ export const mainMenu = {
   products:"/products",
   enterprice:"/enterprice",
   SMEs:"/smes",
-  stratups:"/stratups",
+  startups:"/startups",
   "Women Entrepreneur":"/women_entrepreneur",
   "Gen New":"/gen_new"
 };
