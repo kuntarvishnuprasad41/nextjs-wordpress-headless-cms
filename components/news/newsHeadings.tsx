@@ -33,9 +33,12 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
                 <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
             </div>
             <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-4 gap-7">
-                {categories.length > 0 && categories.slice(0, 4).map((item: any) => {
+                {categories.length > 0 && categories.slice(0, 3).map((item: any) => {
                     return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
                 })}
+                <div>
+                    <Image alt="ad" className="md:w-full w-[400px] h-[550px] md:h-full md:object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
+                </div>
             </div>
 
         </div>
