@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/wp-api/:path*",
+        destination: "https://wordpress.sscinitiatives.com/:path*"
+      }
+    ]
+  },
   async redirects() {
     return [
       {

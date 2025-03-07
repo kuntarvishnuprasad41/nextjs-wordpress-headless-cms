@@ -1,473 +1,551 @@
-# Next.js Starter for WordPress Headless CMS
+# Configuring wordpress
 
-> [Watch the Demo Video](https://www.youtube.com/watch?v=JZc1-BcOvYw)
+1. Install wordpress
+2. Go to wp-admin
+3. Install plugin GraphQl / WpGraphQl / any other which does GraphQL APIs
+4. Settings-> Permalinks -> Change it to posttypes
+5. Open next proj
+6. copy .env.example
+7. Change both the ENV to wordpress url
+8. Open wordpress and graphql plugin, copy the url and paste it into NEXT_API_URL
+9. Remove the plugin
 
-![CleanShot 2025-01-07 at 23 18 41@2x](https://github.com/user-attachments/assets/8b268c36-eb0d-459f-b9f1-b5f129bd29bc)
+## Change functions.php
 
-[![Deploy with Vercel](https://vercel.com/button)](<https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F9d8dev%2Fnext-wp&env=WORDPRESS_URL,WORDPRESS_HOSTNAME,WORDPRESS_WEBHOOK_SECRET&envDescription=Add%20WordPress%20URL%20with%20Rest%20API%20enabled%20(ie.%20https%3A%2F%2Fwp.example.com)%2C%20the%20hostname%20for%20Image%20rendering%20in%20Next%20JS%20(ie.%20wp.example.com)%2C%20and%20a%20secret%20key%20for%20secure%20revalidation&project-name=next-wp&repository-name=next-wp&demo-title=Next%20JS%20and%20WordPress%20Starter&demo-url=https%3A%2F%2Fwp.9d8.dev>)
+```php
+function get_menu_items($data) {
+    $menu_name = $data['slug']; // Get menu slug from API request
+    $menu = wp_get_nav_menu_object($menu_name);
 
-This is a starter template for building a Next.js application that fetches data from a WordPress site using the WordPress REST API. The template includes functions for fetching posts, categories, tags, authors, and featured media from a WordPress site and rendering them in a Next.js application.
+    if (!$menu) {
+        return new WP_Error('no_menu', 'Menu not found', ['status' => 404]);
+    }
 
-`next-wp` is built with [Next.js 15](https://nextjs.org/docs), [React](https://react.dev/), [Typescript](https://www.typescriptlang.org/docs/), [Tailwind](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/docs), and [brijr/craft](https://github.com/brijr/craft). It pairs nicely with [brijr/components](https://components.bridger.to/) for a rapid development experience. Built by Cameron and Bridger at [9d8](https://9d8.dev).
+    $menu_items = wp_get_nav_menu_items($menu->term_id);
 
-## Table of Contents
-
-- [Next.js Starter for WordPress Headless CMS](#nextjs-starter-for-wordpress-headless-cms)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [WordPress Functions](#wordpress-functions)
-  - [WordPress Types](#wordpress-types)
-  - [Post Card Component](#post-card-component)
-  - [Filter Component](#filter-component)
-  - [Dynamic Sitemap](#dynamic-sitemap)
-  - [Dynamic OG Images](#dynamic-og-images)
-  - [Revalidation Setup](#revalidation-setup)
-  - [Search Functionality](#search-functionality)
-
-## Overview
-
-### What's included?
-
-✅ Type-safe data layer with the WordPress RestAPI<br>
-✅ Granular access to revalidation and cache tags<br>
-✅ Setup for all basic WordPress options: Posts, Pages, Authors, Categories, Tags<br>
-✅ Easy integration with custom post types and ACF<br>
-✅ Dynamic routes for Posts and Pages<br>
-✅ Design system for layout and prose styling ([craft-ds.com](https://craft-ds.com))<br>
-✅ Filter, Search, and Card components<br>
-✅ Dynamically rendered sitemap<br>
-✅ Dynamically generated metadata<br>
-✅ Dynamically generated OG/Twitter Cards for Posts and pages<br>
-✅ Responsive Nav and Footer components<br>
-✅ Site configuration file<br>
-✅ Menu configuration file<br>
-✅ Lite and dark mode support<br>
-✅ shadcn/ui components and theming<br>
-✅ Vercel analytics<br>
-
-### Important files
-
-- `lib/wordpress.ts` -> Functions for fetching WordPress CMS via Rest API with cache tags
-- `lib/wordpress.d.ts` -> Type declarations for the WordPress Rest API
-- `components/craft.tsx` -> Handles the design system for the site and prose styling
-- `components/posts/post-card.tsx` -> Component and styling for posts
-- `components/posts/filter.tsx` -> Filter component for Posts
-- `components/posts/search-input.tsx` -> Search component for Posts
-- `menu.config.ts` -> Site nav menu configuration for desktop and mobile
-- `site.config.ts` -> Configuration for `sitemap.ts` and more
-- `app/sitemap.ts` -> Dynamically generated sitemap
-
-The following environment variables are required in your `.env.local` file:
-
-```bash
-WORDPRESS_URL="https://wordpress.com"
-WORDPRESS_HOSTNAME="wordpress.com"
-WORDPRESS_WEBHOOK_SECRET="your-secret-key-here"
-```
-
-You can find the example of `.env.local` file in the `.env.example` file (and in Vercel).
-
-## WordPress Functions
-
-The `lib/wordpress.ts` file contains a comprehensive set of functions for interacting with the WordPress REST API. Each function is optimized for Next.js 15's caching system and includes proper error handling.
-
-### Core Functionality
-
-```typescript
-// Default fetch options for all WordPress API calls
-const defaultFetchOptions = {
-  next: {
-    tags: ["wordpress"],
-    revalidate: 3600, // 1 hour cache
-  },
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-};
-```
-
-### Available Functions
-
-#### Posts
-
-- `getAllPosts(filterParams?: { author?: string; tag?: string; category?: string; })`: Fetches posts with optional filtering by author, tag, or category. Uses cache tags for efficient revalidation.
-- `getPostById(id: number)`: Retrieves a specific post by ID with proper error handling.
-- `getPostBySlug(slug: string)`: Fetches a post using its URL-friendly slug.
-
-#### Categories
-
-- `getAllCategories()`: Retrieves all categories with cache invalidation support.
-- `getCategoryById(id: number)`: Gets a specific category with error handling.
-- `getCategoryBySlug(slug: string)`: Fetches a category by its slug.
-- `getPostsByCategory(categoryId: number)`: Gets all posts in a category, using proper cache tags.
-
-#### Tags
-
-- `getAllTags()`: Fetches all available tags.
-- `getTagById(id: number)`: Retrieves a specific tag.
-- `getTagBySlug(slug: string)`: Gets a tag by its slug.
-- `getTagsByPost(postId: number)`: Fetches all tags associated with a post.
-- `getPostsByTag(tagId: number)`: Gets all posts with a specific tag.
-
-#### Pages
-
-- `getAllPages()`: Retrieves all WordPress pages.
-- `getPageById(id: number)`: Gets a specific page by ID.
-- `getPageBySlug(slug: string)`: Fetches a page by its slug.
-
-#### Authors
-
-- `getAllAuthors()`: Fetches all WordPress authors.
-- `getAuthorById(id: number)`: Gets a specific author.
-- `getAuthorBySlug(slug: string)`: Retrieves an author by slug.
-- `getPostsByAuthor(authorId: number)`: Gets all posts by a specific author.
-
-#### Media
-
-- `getFeaturedMediaById(id: number)`: Retrieves featured media (images) with size information.
-
-### Error Handling
-
-All functions use the custom `WordPressAPIError` class for consistent error handling:
-
-```typescript
-class WordPressAPIError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public endpoint: string,
-  ) {
-    super(message);
-    this.name = "WordPressAPIError";
-  }
+    return rest_ensure_response($menu_items);
 }
+
+function register_menu_api_routes() {
+    register_rest_route('custom/v1', '/menu/(?P<slug>[a-zA-Z0-9-_]+)', [
+        'methods'  => 'GET',
+        'callback' => 'get_menu_items',
+    ]);
+}
+
+add_action('rest_api_init', 'register_menu_api_routes');
+
 ```
 
-### Cache Management
+wp.config.php
 
-Each function supports Next.js 15's cache tags for efficient revalidation:
+```
+define('JWT_AUTH_SECRET_KEY', 'STRONG KEY');
 
-```typescript
-// Example cache configuration
+```
+
+Installations:
+
+1. JWT Authentication for WP-API
+2. REST API | Custom API Generator For Cross Platform And Import Export In WP
+3. WP REST API - OAuth 1.0a Server
+
+Add the following code to your WordPress `functions.php` or a custom plugin:
+
+```php
+function save_favorite_article(WP_REST_Request $request) {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+
+    // Get JSON input
+    $params = $request->get_json_params();
+    $post_id = isset($params['post_id']) ? intval($params['post_id']) : 0;
+
+    if (!$post_id || !get_post($post_id)) {
+        return new WP_Error('invalid_post', 'Invalid post ID.', array('status' => 400));
+    }
+
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    $saved_articles = is_array($saved_articles) ? $saved_articles : [];
+
+    if (!in_array($post_id, $saved_articles)) {
+        $saved_articles[] = $post_id;
+        update_user_meta($user_id, 'saved_articles', $saved_articles);
+    }
+
+    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
+}
+
+function get_saved_articles() {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    return rest_ensure_response($saved_articles ?: []);
+}
+
+function remove_saved_article(WP_REST_Request $request) {
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return new WP_Error('not_logged_in', 'You must be logged in.', array('status' => 401));
+    }
+
+    // Get JSON input
+    $params = $request->get_json_params();
+    $post_id = isset($params['post_id']) ? intval($params['post_id']) : 0;
+
+    $saved_articles = get_user_meta($user_id, 'saved_articles', true);
+    if (($key = array_search($post_id, $saved_articles)) !== false) {
+        unset($saved_articles[$key]);
+        update_user_meta($user_id, 'saved_articles', array_values($saved_articles));
+    }
+
+    return rest_ensure_response(['success' => true, 'saved_articles' => $saved_articles]);
+}
+
+function register_saved_articles_routes() {
+    register_rest_route('custom/v1', '/save-article', array(
+        'methods' => 'POST',
+        'callback' => 'save_favorite_article',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('custom/v1', '/saved-articles', array(
+        'methods' => 'GET',
+        'callback' => 'get_saved_articles',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('custom/v1', '/remove-article', array(
+        'methods' => 'POST',
+        'callback' => 'remove_saved_article',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+}
+add_action('rest_api_init', 'register_saved_articles_routes');
+
+```
+
+functions.php
+
+```php
+function custom_wp_register_user(WP_REST_Request $request) {
+    $parameters = $request->get_json_params();
+
+    $username = sanitize_text_field($parameters['username']);
+    $email = sanitize_email($parameters['email']);
+    $password = sanitize_text_field($parameters['password']);
+
+    if (empty($username) || empty($email) || empty($password)) {
+        return new WP_Error('missing_fields', 'Please provide username, email, and password.', ['status' => 400]);
+    }
+
+    if (username_exists($username) || email_exists($email)) {
+        return new WP_Error('user_exists', 'Username or email already exists.', ['status' => 400]);
+    }
+
+    $user_id = wp_create_user($username, $password, $email);
+
+    if (is_wp_error($user_id)) {
+        return new WP_Error('registration_failed', 'User registration failed.', ['status' => 400]);
+    }
+
+    return rest_ensure_response([
+        'id' => $user_id,
+        'username' => $username,
+        'email' => $email,
+        'message' => 'User registered successfully!'
+    ]);
+}
+
+function register_wp_rest_user_endpoint() {
+    register_rest_route('wp/v2', '/users/register', [
+        'methods'  => 'POST',
+        'callback' => 'custom_wp_register_user',
+        'permission_callback' => '__return_true', // Allows public access (optional)
+    ]);
+}
+
+add_action('rest_api_init', 'register_wp_rest_user_endpoint');
+
+
+add_filter('rest_prepare_post', function($response, $post, $request) {
+    if (isset($response->data['content']['rendered'])) {
+        // Get CSS from the theme's style.css
+        $theme_css = file_get_contents(get_stylesheet_directory() . '/style.css');
+        $style_tag = '<style>' . $theme_css . '</style>';
+
+        // Prepend inline CSS to the content
+        $response->data['content']['rendered'] = $style_tag . $response->data['content']['rendered'];
+    }
+    return $response;
+}, 10, 3);
+
+
+```
+
+# Next.js + WordPress Integration steps
+
+---
+
+## 1. WordPress Categories & Subcategories
+
+To structure your content properly, configure the following **categories and subcategories** in WordPress:
+
+### **Categories & Subcategories Hierarchy**
+
+- **News (Main Category)**
+
+  - Politics
+  - Business
+  - Science & Technology
+  - Cybersecurity
+  - Health
+  - Startups
+  - Women Entrepreneurs
+  - Events
+  - Enterprise
+  - Spec
+
+- **Featured Stories (Custom Tag)**
+
+  - `featured` (For highlighting articles on the homepage)
+
+- **ProCo Stories (Custom Tag)**
+  - `proco-stories` (For articles appearing in the ProCo Stories section)
+
+---
+
+## 2. API Endpoints (WordPress REST API)
+
+Below are the required API endpoints to fetch and display content dynamically.
+
+### **Homepage Endpoints**
+
+#### **Fetch Hero Section (Featured Story)**
+
+```http
+GET /wp-json/wp/v2/posts?tags=featured&per_page=1
+```
+
+#### **Fetch Recent Stories**
+
+```http
+GET /wp-json/wp/v2/posts?orderby=date&per_page=10
+```
+
+#### **Fetch Top Stories (Customize with a Specific Tag or Category)**
+
+```http
+GET /wp-json/wp/v2/posts?tags=top-stories&per_page=6
+```
+
+#### **Fetch Posts by Category**
+
+```http
+GET /wp-json/wp/v2/posts?categories=<category_id>&per_page=6
+```
+
+Replace `<category_id>` with the actual category ID.
+
+#### **Fetch ProCo Stories Section**
+
+```http
+GET /wp-json/wp/v2/posts?tags=proco-stories&per_page=6
+```
+
+#### **Fetch Category List (For Navigation Menus)**
+
+```http
+GET /wp-json/wp/v2/categories
+```
+
+#### **Fetch Menus (If Using WordPress Menu System)**
+
+```http
+GET /wp-json/wp/v2/menus
+```
+
+---
+
+### **News Display Page Endpoints**
+
+#### **Fetch News by Category (Dynamic Page)**
+
+```http
+GET /wp-json/wp/v2/posts?categories=<category_id>&per_page=10&page=<page_number>
+```
+
+Supports **pagination** using `page=<page_number>`.
+
+#### **Fetch Single News Article**
+
+```http
+GET /wp-json/wp/v2/posts?slug=<post_slug>
+```
+
+Replace `<post_slug>` with the actual slug of the post.
+
+#### **Fetch Related Posts (Same Category, Excluding Current Post)**
+
+```http
+GET /wp-json/wp/v2/posts?categories=<category_id>&exclude=<post_id>&per_page=3
+```
+
+#### **Search Functionality**
+
+```http
+GET /wp-json/wp/v2/posts?search=<search_query>
+```
+
+Replace `<search_query>` with the actual search keyword.
+
+---
+
+## 3. Fetching & Displaying Sections in Next.js
+
+### **Homepage Sections**
+
+- **Hero Section** → Fetch the latest **featured** post.
+- **Recent Stories** → Fetch posts ordered by date.
+- **Top Stories** → Fetch posts tagged as `top-stories`.
+- **Category-wise Sections** → Fetch posts based on category ID.
+- **ProCo Stories** → Fetch posts tagged as `proco-stories`.
+- **Newsletter Subscription** → Display a simple subscription form.
+
+### **News Display Page**
+
+- **Show Category-wise News** → Fetch posts dynamically using the category ID.
+- **Pagination** → Support infinite scroll or numbered pagination.
+- **Single News Page** → Fetch article by slug and display content.
+- **Related Posts** → Show 3 related posts from the same category.
+- **Search Feature** → Allow searching articles dynamically.
+
+---
+
+## 4. Dynamic Menus
+
+To render menus dynamically:
+
+1. Fetch categories using `/wp-json/wp/v2/categories`
+2. Fetch menu items (if using WP menus) via `/wp-json/wp/v2/menus`
+3. Map through the categories and render them in your navigation bar.
+
+---
+
+## 5. Reader Registration, Comments, and Article Saving
+
+### **Enable User Registration**
+
+#### **Register a New User**
+
+```http
+POST /wp-json/wp/v2/users/register
+```
+
+Request body:
+
+```json
 {
-  next: {
-    tags: ["wordpress", "posts", `post-${id}`],
-    revalidate: 3600,
-  }
+  "username": "exampleuser",
+  "email": "user@example.com",
+  "password": "securepassword"
 }
 ```
 
-### Usage Example
+### **User Login**
 
-```typescript
-try {
-  // Fetch posts with filtering
-  const posts = await getAllPosts({
-    author: "123",
-    category: "news",
-    tag: "featured",
-  });
+```http
+POST /wp-json/jwt-auth/v1/token
+```
 
-  // Handle errors properly
-} catch (error) {
-  if (error instanceof WordPressAPIError) {
-    console.error(`API Error: ${error.message} (${error.status})`);
-  }
+Request body:
+
+```json
+{
+  "username": "exampleuser",
+  "password": "securepassword"
 }
 ```
 
-These functions are designed to work seamlessly with Next.js 15's App Router and provide proper TypeScript support through the types defined in `wordpress.d.ts`.
+### **Allow Users to Comment on Articles**
 
-## WordPress Types
+#### **Fetch Comments for a Post**
 
-The `lib/wordpress.d.ts` file contains comprehensive TypeScript type definitions for WordPress entities. The type system is built around a core `WPEntity` interface that provides common properties for WordPress content:
+```http
+GET /wp-json/wp/v2/comments?post=<post_id>
+```
 
-```typescript
-interface WPEntity {
-  id: number;
-  date: string;
-  date_gmt: string;
-  modified: string;
-  modified_gmt: string;
-  slug: string;
-  status: "publish" | "future" | "draft" | "pending" | "private";
-  link: string;
-  guid: {
-    rendered: string;
-  };
+#### **Submit a New Comment**
+
+```http
+POST /wp-json/wp/v2/comments
+```
+
+Request body:
+
+```json
+{
+  "post": <post_id>,
+  "content": "This is a great article!",
+  "author_email": "user@example.com",
+  "author_name": "John Doe"
 }
 ```
 
-Key type definitions include:
+### **Reply to a Comment**
 
-### Content Types
+```http
+POST /wp-json/wp/v2/comments
+```
 
-- `Post`: Blog posts and articles (extends `WPEntity`)
-- `Page`: Static pages (extends `WPEntity`)
-- `Author`: User information
-- `Category`: Post categories (extends `Taxonomy`)
-- `Tag`: Post tags (extends `Taxonomy`)
-- `FeaturedMedia`: Media attachments (extends `WPEntity`)
+Request body:
 
-### Shared Interfaces
-
-- `RenderedContent`: For content with HTML rendering
-- `RenderedTitle`: For titles with HTML rendering
-- `Taxonomy`: Base interface for categories and tags
-
-### Component Types
-
-```typescript
-interface FilterBarProps {
-  authors: Author[];
-  tags: Tag[];
-  categories: Category[];
-  selectedAuthor?: Author["id"];
-  selectedTag?: Tag["id"];
-  selectedCategory?: Category["id"];
-  onAuthorChange?: (authorId: Author["id"] | undefined) => void;
-  onTagChange?: (tagId: Tag["id"] | undefined) => void;
-  onCategoryChange?: (categoryId: Category["id"] | undefined) => void;
+```json
+{
+  "post": <post_id>,
+  "parent": <comment_id>,
+  "content": "Thanks for your feedback!"
 }
 ```
 
-### Media Types
+## Get post by id
 
-```typescript
-interface MediaDetails {
-  width: number;
-  height: number;
-  file: string;
-  sizes: Record<string, MediaSize>;
+```
+ GET /wp-json/wp/v2/posts/123
+```
+
+##Get multiple post by id
+
+```
+GET /wp-json/wp/v2/posts?include=1,6,789
+```
+
+Header:
+
+```
+
+Authorization: Bearer your_jwt_token
+
+```
+
+# Saved Articles API
+
+This API allows authenticated users to save, retrieve, and remove saved articles in WordPress using the REST API.
+
+## Authentication
+
+All requests require authentication using **JWT tokens**.
+
+- Obtain a JWT token by logging in:
+  ```http
+  POST /wp-json/jwt-auth/v1/token
+  Content-Type: application/json
+  ```
+
+````
+
+**Request Body:**
+
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
 }
+```
 
-interface MediaSize {
-  file: string;
-  width: number;
-  height: number;
-  mime_type: string;
-  source_url: string;
+**Response:**
+
+```json
+{
+  "token": "your_jwt_token",
+  "user_email": "user@example.com",
+  "user_display_name": "Example User"
 }
 ```
 
-All types are designed to be:
+## Endpoints
 
-- Fully type-safe
-- Extensible
-- Self-documenting
-- Compatible with the WordPress REST API
+### 1. Save an Article
 
-## Post Card Component
+**Endpoint:**
 
-The `components/posts/post-card.tsx` file contains the `PostCard` component, which is responsible for rendering a single post card in the application. Here's an overview of the component:
-
-### Props
-
-- `post`: A `Post` object representing the WordPress post to be rendered.
-
-### Functionality
-
-1. The component fetches the featured media, author, and category associated with the post using the `getFeaturedMediaById`, `getAuthorById`, and `getCategoryById` functions from `lib/wordpress.ts`.
-
-2. It formats the post date using the `toLocaleDateString` method with the specified options.
-
-3. The component renders a link to the individual post page using the post's slug.
-
-4. Inside the link, it displays the post's featured image, title, excerpt, category, and date.
-
-5. The post title and excerpt are rendered using the `dangerouslySetInnerHTML` attribute to handle HTML content.
-
-6. The component applies various CSS classes to style the post card, including hover effects and transitions.
-
-### Usage
-
-To use the `PostCard` component, import it into your desired page or component and pass a `Post` object as the `post` prop.
-
-## Filter Component
-
-The `components/posts/filter.tsx` file contains the `FilterPosts` component, which provides a filtering interface for posts based on tags, categories, and authors. Here's an overview of the component:
-
-### Props
-
-- `authors`: An array of `Author` objects representing the available authors to filter by.
-- `tags`: An array of `Tag` objects representing the available tags to filter by.
-- `categories`: An array of `Category` objects representing the available categories to filter by.
-- `selectedAuthor`: An optional string representing the currently selected author ID.
-- `selectedTag`: An optional string representing the currently selected tag ID.
-- `selectedCategory`: An optional string representing the currently selected category ID.
-
-### Functionality
-
-1. The component uses the `useRouter` hook from Next.js to handle navigation and URL updates based on the selected filters.
-
-2. It renders three `Select` components for filtering posts by tag, category, and author. Each `Select` component displays the available options and allows the user to select a specific value or choose "All" to reset the filter.
-
-3. When a filter value is changed, the `handleFilterChange` function is called with the filter type and selected value. It updates the URL query parameters accordingly and navigates to the updated URL.
-
-4. The component also includes a "Reset Filters" button that, when clicked, calls the `handleResetFilters` function to navigate back to the `/posts` page without any filters applied.
-
-5. The selected filter values are passed as props to the component and used to set the initial values of the `Select` components.
-
-## Search Functionality
-
-The template includes a powerful search system that works seamlessly with WordPress's REST API:
-
-### Search Component
-
-Located in `components/posts/search-input.tsx`, the SearchInput component provides real-time search capabilities:
-
-```typescript
-// Usage example
-import { SearchInput } from "@/components/posts/search-input";
-
-<SearchInput defaultValue={search} />
+```http
+POST /wp-json/custom/v1/save-article
+Authorization: Bearer your_jwt_token
+Content-Type: application/json
 ```
 
-Features:
+**Request Body:**
 
-- Real-time search with 300ms debouncing
-- URL-based state management
-- Maintains filters while searching
-- Server-side rendering for SEO
-- Combines with existing category, tag, and author filters
-
-### Search Implementation
-
-The search system is implemented across several layers:
-
-1. **Client-Side Component** (`search-input.tsx`):
-
-   - Uses Next.js App Router's URL handling
-   - Debounced input for better performance
-   - Maintains search state in URL parameters
-
-2. **Server-Side Processing** (`page.tsx`):
-
-   - Handles search parameters server-side
-   - Combines search with other filters
-   - Parallel data fetching for better performance
-
-3. **WordPress API Integration** (`wordpress.ts`):
-   - Comprehensive search across:
-     - Post content and titles
-     - Author names
-     - Category names
-     - Tag names
-   - Smart query construction
-   - Filter combination support
-
-### Search API Functions
-
-The following search-related functions are available in `lib/wordpress.ts`:
-
-```typescript
-// Search posts with combined filters
-getAllPosts({
-  search?: string,
-  author?: string,
-  tag?: string,
-  category?: string
-})
-
-// Search specific content types
-searchCategories(query: string)
-searchTags(query: string)
-searchAuthors(query: string)
+```json
+{
+  "post_id": 123
+}
 ```
 
-### Example Usage
+**Response:**
 
-```typescript
-// In your page component
-const { search } = await searchParams;
-const posts = search ? await getAllPosts({ search }) : await getAllPosts();
+```json
+{
+  "success": true,
+  "saved_articles": [123, 456]
+}
 ```
 
-The search functionality automatically updates filters and results as you type, providing a smooth user experience while maintaining good performance through debouncing and server-side rendering.
+### 2. Get Saved Articles
 
-## Dynamic OG Images
+**Endpoint:**
 
-This starter includes automatic OG image generation for both posts and pages. The OG images are generated on-demand using the Edge Runtime and include:
-
-- Dynamic title and description
-- Modern, responsive design
-- Proper social media card sizes
-- Automatic text wrapping and scaling
-
-You can test the OG image generation by visiting:
-
-```
-/api/og?title=Your Title&description=Your Description
+```http
+GET /wp-json/custom/v1/saved-articles
+Authorization: Bearer your_jwt_token
 ```
 
-The OG images are automatically generated for:
+**Response:**
 
-- Blog posts: `/posts/[slug]`
-- Pages: `/pages/[slug]`
-
-Each OG image includes:
-
-- The post/page title
-- A snippet of the content (automatically trimmed and cleaned)
-- Consistent branding across your site
-- Proper dimensions for social media platforms
-
-## Dynamic Sitemap
-
-The sitemap for `next-wp` is generated at `@/app/sitemap.ts` and will appear live on your site at `yourdomain.com/sitemap.xml`. In order to set up your sitemap correctly please make sure to update the `site_domain` in the `site.config.ts` to be the domain of your frontend (not your WordPress instance).
-
-## Revalidation Setup
-
-This starter implements an intelligent caching and revalidation system using Next.js 15's cache tags. Here's how it works:
-
-### Cache Tags System
-
-The WordPress API functions use a hierarchical cache tag system:
-
-- Global tag: `wordpress` (affects all content)
-- Content type tags: `posts`, `pages`, `categories`, etc.
-- Individual item tags: `post-123`, `category-456`, etc.
-
-### Automatic Revalidation
-
-1. **Install the WordPress Plugin:**
-
-   - Navigate to `wordpress/next-revalidate/`
-   - Create a zip file of the folder
-   - Install and activate through WordPress admin
-   - Go to Settings > Next.js Revalidation
-   - Configure your Next.js URL and webhook secret
-
-2. **Configure Next.js:**
-
-   - Add `WORDPRESS_WEBHOOK_SECRET` to your environment variables
-   - The webhook endpoint at `/api/revalidate` is already set up
-   - No additional configuration needed
-
-3. **How it Works:**
-   - When content is updated in WordPress, the plugin sends a webhook
-   - The webhook includes content type and ID information
-   - Next.js automatically revalidates the appropriate cache tags
-   - Only affected content is updated, maintaining performance
-
-### Manual Revalidation
-
-You can also manually revalidate content using the `revalidateWordPressData` function:
-
-```typescript
-// Revalidate all WordPress content
-await revalidateWordPressData();
-
-// Revalidate specific content types
-await revalidateWordPressData(["posts"]);
-await revalidateWordPressData(["categories"]);
-
-// Revalidate specific items
-await revalidateWordPressData(["post-123"]);
-await revalidateWordPressData(["category-456"]);
+```json
+[123, 456]
 ```
 
-This system ensures your content stays fresh while maintaining optimal performance through intelligent caching.
+### 3. Remove a Saved Article
 
-Built by [Bridger Tower](https://twitter.com/bridgertower) and [Cameron Youngblood](https://twitter.com/youngbloodcyb) at [9d8](https://9d8.dev)
+**Endpoint:**
+
+```http
+POST /wp-json/custom/v1/remove-article
+Authorization: Bearer your_jwt_token
+Content-Type: application/json
+```
+
+**Request Body:**
+
+```json
+{
+  "post_id": 123
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "saved_articles": [456]
+}
+```
+
+## Implementation in WordPress
+
+### Register Custom Endpoints
+````

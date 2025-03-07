@@ -3,10 +3,10 @@
 // React and Next Imports
 import * as React from "react";
 import Link, { LinkProps } from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 // Utility Imports
-import { Menu, ArrowRightSquare } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Component Imports
@@ -18,56 +18,55 @@ import {
   SheetTrigger,
   SheetTitle,
   SheetHeader,
+  SheetFooter,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 
 import { mainMenu, contentMenu } from "@/menu.config";
-import { siteConfig } from "@/site.config";
+import SocialMedia from "../ui/social-media";
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
-
+  const closeOpen = () => setOpen(false)
+  const pathName = usePathname()
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          className="px-0 border w-10 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+          className="p-0 border text-base border-none hover:bg-transparent hover:text-white focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 nav-md:hidden"
         >
-          <Menu />
+          <Menu className="hover:text-white"/>
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="pr-0">
+      <SheetContent side="left" className="px-4 bg-black text-white border-none">
         <SheetHeader>
-          <SheetTitle className="text-left">
-            <MobileLink
-              href="/"
-              className="flex items-center"
-              onOpenChange={setOpen}
-            >
-              <ArrowRightSquare className="mr-2 h-4 w-4" />
-              <span>{siteConfig.site_name}</span>
-            </MobileLink>
+          <SheetTitle className="px-5 text-white">
+            <div className="flex justify-between">
+              <X size={24} onClick={closeOpen} className="cursor-pointer text-white" />
+              <button className="border border-white rounded-full px-3 py-1 nav-md:px-4 nav-md:py-1 text-sm nav-md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300">
+                Subscribe
+              </button>
+            </div>
           </SheetTitle>
         </SheetHeader>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="flex flex-col space-y-3">
-            <h3 className="text-small mt-6">Menu</h3>
-            <Separator />
             {Object.entries(mainMenu).map(([key, href]) => (
-              <MobileLink key={key} href={href} onOpenChange={setOpen}>
+              <MobileLink className={pathName === href ? "opacity-100" : "opacity-65"} key={key} href={href} onOpenChange={setOpen}>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </MobileLink>
             ))}
-            <h3 className="text-small pt-6">Blog Menu</h3>
             <Separator />
-            {Object.entries(contentMenu).map(([key, href]) => (
-              <MobileLink key={key} href={href} onOpenChange={setOpen}>
-                {key.charAt(0).toUpperCase() + key.slice(1)}
-              </MobileLink>
-            ))}
+            <div className="flex flex-col gap-4">
+              <Link href={"#"}>Our vision</Link>
+              <Link href={"#"}>Our impact</Link>
+            </div>
           </div>
+          <SheetFooter className="py-6">
+            <SocialMedia facebook="#" instagram="#" linkdin="#" twitter="#" />
+          </SheetFooter>
         </ScrollArea>
       </SheetContent>
     </Sheet>
@@ -95,7 +94,7 @@ function MobileLink({
         router.push(href.toString());
         onOpenChange?.(false);
       }}
-      className={cn("text-lg", className)}
+      className={cn("text-base", className)}
       {...props}
     >
       {children}

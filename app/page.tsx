@@ -9,13 +9,26 @@ import Link from "next/link";
 import { File, Pen, Tag, Diamond, User, Folder } from "lucide-react";
 import { WordPressIcon } from "@/components/icons/wordpress";
 import { NextJsIcon } from "@/components/icons/nextjs";
+import Hero from "@/components/hero/hero";
+import { NewsHeadingsSectionOne, NewsHeadingsSectionThree, NewsHeadingsSectionTwo } from "@/components/news/newsHeadings";
+import { fetchDataFn } from "@/lib/fetch";
+import NewsOverview from "@/components/majorArticles/NewsOverview";
 
 // This page is using the craft.tsx component and design system
-export default function Home() {
+export default async function Home() {
+  const { headlinesSectionOne, headlinesSectionTwo,headlinesSectionThree } = await fetchDataFn("/wp-json/wp/v2/home-headlines")
+  const [headlinesSectionTwo1, headlinesSectionTwo2] = headlinesSectionTwo
+  
   return (
     <Section>
       <Container>
-        <ToDelete />
+        <Hero />
+        <NewsHeadingsSectionOne data={headlinesSectionOne} />
+        <NewsHeadingsSectionTwo data={headlinesSectionTwo1} data1={headlinesSectionTwo2} />
+        <NewsOverview />
+        <NewsHeadingsSectionThree data={headlinesSectionThree}/>
+        {/* <Hero /> */}
+        {/* <ToDelete /> */}
       </Container>
     </Section>
   );
@@ -24,7 +37,7 @@ export default function Home() {
 // This is just some example TSX
 const ToDelete = () => {
   return (
-    <main className="space-y-6">
+    <main className="space-y-0">
       <Prose>
         <h1>
           <Balancer>Headless WordPress built with the Next.js</Balancer>
