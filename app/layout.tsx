@@ -39,14 +39,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
+  params: any
 }) {
   const headersList = await headers()
-  const pathname = headersList.get("x-pathname") || headersList.get("x-url")?.split("?")[0] || "/"
-  console.log(pathname);
-  
+  const pathName = headersList.get('x-current-path') 
+  console.log(pathName);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
