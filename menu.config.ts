@@ -4,8 +4,8 @@ export const mainMenu = {
   enterprice:"/enterprice",
   SMEs:"/smes",
   startups:"/startups",
-  "Women Entrepreneur":"/women_entrepreneur",
-  "Gen New":"/gen_new"
+  "Women Entrepreneur":"/women-entrepreneur",
+  "Gen New":"/gen-new"
 };
 
 export const contentMenu = {
