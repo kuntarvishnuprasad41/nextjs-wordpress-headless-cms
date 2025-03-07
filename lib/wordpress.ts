@@ -78,10 +78,6 @@ async function wordpressFetch<T>(
     },
   });
 
-  // const rawResponse = await response.text();
-  // // console.log("Response Status:", response.status);
-  // console.log("Raw Response:", rawResponse);
-
   if (!response.ok) {
     throw new WordPressAPIError(
       `WordPress API request failed: ${response.statusText}`,
@@ -402,8 +398,6 @@ export async function getPostsByTagSlug(tagSlug: string): Promise<Post[]> {
 }
 
 export async function getFeaturedMediaById(id: number): Promise<FeaturedMedia> {
-  
-
   const url = getUrl(`/wp-json/wp/v2/media/${id}`);
   const response = await wordpressFetch<FeaturedMedia>(url, {
     next: {

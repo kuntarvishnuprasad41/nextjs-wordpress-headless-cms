@@ -121,9 +121,21 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     /* IE and Edge */
-    scrollbar-width: none;
+    scrollbar-width: none; /* Firefox */
+    -webkit-scrollbar-width: none; /* Chrome, Safari, and others */
     /* Firefox */
   }
+}
+
+.wp-block-media-text.is-stacked-on-mobile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+
+  border-radius: 8px;
+
+  overflow: hidden;
 }
 
 /* Media Text Block - Main Container */
