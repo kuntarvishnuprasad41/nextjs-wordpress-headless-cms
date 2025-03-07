@@ -2,12 +2,10 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { MobileNav } from "@/components/nav/mobile-nav";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { mainMenu, contentMenu } from "@/menu.config";
+import { mainMenu } from "@/menu.config";
 import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/site.config";
 
-import Balancer from "react-wrap-balancer";
 import Logo from "@/public/pro_co_leader.svg";
 import LogoWhite from "@/public/pro_co_leader_white.svg";
 import Image from "next/image";
@@ -15,7 +13,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import SocialMedia from "@/components/ui/social-media";
-import { fetchDataFn } from "@/lib/fetch";
 const accurat = localFont({
   src: [
     {
