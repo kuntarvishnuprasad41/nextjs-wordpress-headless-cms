@@ -5,6 +5,7 @@ import { MobileNav } from "@/components/nav/mobile-nav";
 import { mainMenu } from "@/menu.config";
 import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/site.config";
+import { headers } from "next/headers"
 
 import Logo from "@/public/pro_co_leader.svg";
 import LogoWhite from "@/public/pro_co_leader_white.svg";
@@ -42,6 +43,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const headersList = await headers()
+  const pathname = headersList.get("x-pathname") || headersList.get("x-url")?.split("?")[0] || "/"
+  console.log(pathname);
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -63,8 +68,7 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
   return (
     <nav
       className={cn(
-        `sticky z-50 top-0 ${
-          mode === "dark" ? "text-white bg-black" : "text-black bg-white"
+        `sticky z-50 top-0 ${mode === "dark" ? "text-white bg-black" : "text-black bg-white"
         }`,
         "",
         className
@@ -101,20 +105,18 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
         </div>
         <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
           <button
-            className={`border ${
-              mode === "dark"
-                ? "border-white text-white"
-                : "border-black text-black"
-            } rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
+            className={`border ${mode === "dark"
+              ? "border-white text-white"
+              : "border-black text-black"
+              } rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
           >
             Sign In
           </button>
           <button
-            className={`hidden nav-md:block border ${
-              mode === "dark"
-                ? "border-white text-white"
-                : "border-black text-black"
-            } rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
+            className={`hidden nav-md:block border ${mode === "dark"
+              ? "border-white text-white"
+              : "border-black text-black"
+              } rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
           >
             Subscribe
           </button>
