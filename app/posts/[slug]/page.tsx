@@ -30,11 +30,16 @@ export async function generateMetadata({
     return {};
   }
 
-  const ogUrl = new URL(`${siteConfig.site_domain}/api/og`);
-  ogUrl.searchParams.append("title", post.title.rendered);
-  // Strip HTML tags for description
+  // const ogUrl = new URL(`${siteConfig.site_domain}/api/og`);
+  // ogUrl.searchParams.append("title", post.title.rendered);
+  // // Strip HTML tags for description
+  // const description = post.excerpt.rendered.replace(/<[^>]*>/g, "").trim();
+  // ogUrl.searchParams.append("description", description);
+
   const description = post.excerpt.rendered.replace(/<[^>]*>/g, "").trim();
-  ogUrl.searchParams.append("description", description);
+  const featuredImage = post.featured_media
+    ? (await getFeaturedMediaById(post.featured_media)).source_url
+    : `${siteConfig.site_domain}/default-image.jpg`; // Fallback image
 
   return {
     title: post.title.rendered,
@@ -46,7 +51,7 @@ export async function generateMetadata({
       url: `${siteConfig.site_domain}/posts/${post.slug}`,
       images: [
         {
-          url: ogUrl.toString(),
+          url: featuredImage,
           width: 1200,
           height: 630,
           alt: post.title.rendered,
@@ -57,7 +62,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title.rendered,
       description: description,
-      images: [ogUrl.toString()],
+      images: [featuredImage],
     },
   };
 }
