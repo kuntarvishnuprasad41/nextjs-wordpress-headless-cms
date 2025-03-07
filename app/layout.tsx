@@ -45,7 +45,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const productJson = await fetchDataFn(`/wp-json/wp/v2/categories`);
   return (
     <html lang="en" suppressHydrationWarning>
       <body
