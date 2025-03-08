@@ -19,19 +19,27 @@ export const NewsHeadings = ({ url, title, excerpt, author }: { author?: string;
 
 }
 export function CategoryNewsSectionOne({ data }: { data: any }) {
-    const { posts } = data
+    const { posts = [], name } = data
     return <div className="flex flex-col mx-auto gap-[1px] p-2">
-        <div>
-            <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
-        </div>
-        <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-4 gap-7">
-            {posts.length && posts.slice(0, 3).map((item: any) => {
-                return <NewsHeadings key={item.id} url={item?.featured_image?.url} excerpt={item?.excerpt} title={item?.title} author={item?.author?.name} />
-            })}
-            <div>
-                <Image alt="ad" className="md:w-full w-[300px] mx-auto md:mx-0 h-[450px] md:h-full object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
-            </div>
-        </div>
+        {
+            name && (
+                <div>
+                    <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{name}</span>
+                </div>
+            )
+        }
+        {
+            posts?.length > 0 && (
+                <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-4 gap-7">
+                    {posts.slice(0, 3).map((item: any) => {
+                        return <NewsHeadings key={item.id} url={item?.featured_image?.url} excerpt={item?.excerpt} title={item?.title} author={item?.author?.name} />
+                    })}
+                    <div>
+                        <Image alt="ad" className="md:w-full w-[300px] mx-auto md:mx-0 h-[450px] md:h-full object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
+                    </div>
+                </div>
+            )
+        }
 
     </div>
 }
