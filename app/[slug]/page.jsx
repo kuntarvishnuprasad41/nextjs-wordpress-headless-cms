@@ -37,8 +37,8 @@ export default async function Page({ params }) {
         <Container>
             <section className="container px-8 py-8 max-w-10xl flex flex-col gap-4">
                 <h1 className="text-center capitalize text-4xl font-bold">{data?.name || descriptions[slug]?.name}</h1>
-                <div className="mx-auto" style={{
-                    width: "570px"
+                <div className="mx-auto w-full" style={{
+                    maxWidth: "570px"
                 }}>
                     <p className="text-center">{descriptions[slug]?.description}</p>
                 </div>
