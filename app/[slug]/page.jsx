@@ -36,7 +36,7 @@ export default async function Page({ params }) {
     return <Section>
         <Container>
             <section className="container px-8 py-8 max-w-10xl flex flex-col gap-4">
-                <h1 className="md:text-center capitalize text-4xl font-bold">{data?.name || descriptions[slug]?.name}</h1>
+                <h1 className="md:text-center capitalize text-2xl md:text-4xl font-bold">{data?.name || descriptions[slug]?.name}</h1>
                 <div className="md:mx-auto w-full" style={{
                     maxWidth: "570px"
                 }}>
