@@ -1,5 +1,6 @@
 import { fetchDataFn } from "@/lib/fetch";
 import { Section, Container } from "@/components/craft";
+import { CategoryNewsSectionOne } from "./components/categoryNews"
 const descriptions = {
     products: {
         name: "products",
@@ -30,7 +31,8 @@ export default async function Page({ params }) {
     const { slug } = await params
     const data = await fetchDataFn(`/wp-json/wp/v2/parent-category-posts?parent_slug=${slug}`)
     console.log(data);
-    const { posts } = data
+    const { categories } = data
+    const [firstCategory=[]] = categories
     return <Section>
         <Container>
             <section className="container px-8 py-8 max-w-10xl flex flex-col gap-4">
@@ -40,6 +42,7 @@ export default async function Page({ params }) {
                 }}>
                     <p className="text-center">{descriptions[slug]?.description}</p>
                 </div>
+                <CategoryNewsSectionOne data={firstCategory} />
             </section>
         </Container>
     </Section>

@@ -1,36 +1,32 @@
 import Image from "next/image"
 import Link from "next/link"
-export const NewsHeadings = ({ news, category }: { news: any, category?: string | undefined }) => {
-    const [firstItem] = news
+export const NewsHeadings = ({ url, title, excerpt, author }: { author?: string; url: string; title?: string; excerpt?: string; }) => {
     return <div className="flex flex-col gap-2">
-        {category && <h1 className="uppercase text-black/60">{category}</h1>}
-        <div className="flex flex-col gap-2">
-            <Link href={"#"}>
-                <Image src={firstItem?.featured_image?.url} alt="Description Image" width={200} height={160}
-                    className="w-[100%] rounded-xl h-[200px] object-cover"
-                />
+        <Link href={"#"}>
+            <Image src={url} alt="Description Image" width={200} height={160}
+                className="w-[100%] rounded-xl h-[200px] object-cover"
+            />
+        </Link>
+        <div className="flex flex-col">
+            <Link href={"#"} className="font-bold md:text-xl break-all">
+                <h1>{title}</h1>
             </Link>
-            {
-                news.length > 0 && news.slice(0, 3).map((item: any, index: number) => {
-                    return <Link href={"#"} key={index} className="font-bold md:text-xl break-all border-b pb-2">
-                        <h1>
-                            {item.title}
-                        </h1>
-                    </Link>
-                })
-            }
+            <p className="text-base break-all pb-2 text-black/80">{excerpt}</p>
+            <p className="text-base pb-2 text-black uppercase">{author}</p>
         </div>
+
     </div>
+
 }
-export function CategoryNews({ data }: { data: any }) {
-    const { categories } = data
+export function CategoryNewsSectionOne({ data }: { data: any }) {
+    const { posts } = data
     return <div className="flex flex-col mx-auto gap-[1px] p-2">
         <div>
             <span className="px-3 py-1 rounded-full capitalize bg-black text-white">{data?.name}</span>
         </div>
         <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-4 gap-7">
-            {categories.length > 0 && categories.slice(0, 3).map((item: any) => {
-                return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
+            {posts.length && posts.slice(0, 3).map((item: any) => {
+                return <NewsHeadings key={item.id} url={item?.featured_image?.url} excerpt={item?.excerpt} title={item?.title} author={item?.author?.name} />
             })}
             <div>
                 <Image alt="ad" className="md:w-full w-[300px] mx-auto md:mx-0 h-[450px] md:h-full object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
