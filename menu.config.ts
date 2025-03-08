@@ -1,10 +1,10 @@
 // Define the menu items
 export const mainMenu = {
   products:"/products",
-  enterprice:"/enterprice",
+  enterprise:"/enterprise",
   SMEs:"/smes",
   startups:"/startups",
-  "Women Entrepreneur":"/women-entrepreneur",
+  "Women Entrepreneurs":"/women-entrepreneurs",
   "Gen New":"/gen-new"
 };
 
