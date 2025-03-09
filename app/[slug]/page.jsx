@@ -1,6 +1,6 @@
 import { fetchDataFn } from "@/lib/fetch";
 import { Section, Container } from "@/components/craft";
-import { CategoryNewsSectionOne } from "./components/categoryNews"
+import { CategoryNewsSectionOne, CategoryNewsSectionTwo } from "./components/categoryNews"
 const descriptions = {
     products: {
         name: "products",
@@ -30,19 +30,20 @@ const descriptions = {
 export default async function Page({ params }) {
     const { slug } = await params
     const data = await fetchDataFn(`/wp-json/wp/v2/parent-category-posts?parent_slug=${slug}`)
-    console.log(data);
     const { categories = [] } = data
-    const [firstCategory = {}] = categories
+    const [firstCategory = {}, secondCategory, thirdCategory,...restCategories] = categories
     return <Section>
         <Container>
             <section className="container px-8 py-8 max-w-10xl flex flex-col gap-4">
-                <h1 className="md:text-center capitalize text-2xl md:text-4xl font-bold">{data?.name || descriptions[slug]?.name}</h1>
-                <div className="md:mx-auto w-full" style={{
+                <h1 className="md:text-center capitalize text-2xl md:text-4xl font-bold px-2">{data?.name || descriptions[slug]?.name}</h1>
+                <div className="md:mx-auto w-full px-2" style={{
                     maxWidth: "570px"
                 }}>
                     <p className="md:text-center">{descriptions[slug]?.description}</p>
                 </div>
                 <CategoryNewsSectionOne data={firstCategory} />
+                <CategoryNewsSectionTwo data={[secondCategory, thirdCategory]} />
+                <CategoryNewsSectionTwo data={restCategories} />
             </section>
         </Container>
     </Section>
