@@ -50,6 +50,19 @@ export default async function Page({ params }: { params: any }) {
                     <div className="md:w-[570px] text-gray-400">
                         <p>Understand the perspectives of leaders and change-makers in business, politics and civil society.</p>
                     </div>
+                    <div>
+                        <div className="group relative w-[276px] h-[400px] rounded-xl overflow-hidden">
+                            <iframe
+                                className="w-full h-full rounded-xl object-fill"
+                                src="https://www.youtube.com/embed/AGYv0nphF6k?autoplay=1&mute=1&enablejsapi=1"
+                                allow="autoplay"
+                                id="video"
+                            ></iframe>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 group-hover:opacity-0 transition-opacity">
+                                <p className="text-white text-lg">Hover to play</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
             <section className="container px-8 py-8 max-w-10xl">
