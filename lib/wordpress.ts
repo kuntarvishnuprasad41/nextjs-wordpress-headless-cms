@@ -64,11 +64,8 @@ async function wordpressFetch<T>(
   url: string,
   options: FetchOptions = {}
 ): Promise<T> {
-  
-
   const headersList = await headers();
   const userAgent = headersList.get("user-agent") || "Next.js WordPress Client";
- 
 
   const response = await fetch(url, {
     ...defaultFetchOptions,
@@ -80,10 +77,6 @@ async function wordpressFetch<T>(
       // ...options.headers,
     },
   });
-
-  // const rawResponse = await response.text();
-  // // console.log("Response Status:", response.status);
-  // console.log("Raw Response:", rawResponse);
 
   if (!response.ok) {
     throw new WordPressAPIError(

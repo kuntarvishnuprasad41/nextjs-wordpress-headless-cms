@@ -24,19 +24,24 @@ import { Separator } from "@/components/ui/separator";
 
 import { mainMenu, contentMenu } from "@/menu.config";
 import SocialMedia from "../ui/social-media";
+import Image from "next/image";
+const darkNavbarArray = ["/"]
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
   const closeOpen = () => setOpen(false)
   const pathName = usePathname()
+  const mode = darkNavbarArray.includes(pathName)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          className="p-0 border text-base border-none hover:bg-transparent hover:text-white focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 nav-md:hidden"
+          className={`p-0 border text-base border-none hover:bg-transparent 
+            ${mode ? "hover:text-white" : "hover:text-black"} 
+            focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 nav-md:hidden`}
         >
-          <Menu className="hover:text-white"/>
+          <Menu />
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
@@ -72,7 +77,52 @@ export function MobileNav() {
     </Sheet>
   );
 }
-
+export function NavContainer({ className, children, id }: { className?: string, children?: React.ReactNode, id?: string }) {
+  const pathName = usePathname()
+  const mode = darkNavbarArray.includes(pathName)
+  return <nav
+    className={cn(
+      `sticky z-50 top-0 ${mode ? "text-white bg-black" : "text-black bg-white"
+      }`,
+      "",
+      className
+    )}
+    id={id}
+  >
+    {children}
+  </nav>
+}
+export function NavImage({ LogoWhite, Logo }: { LogoWhite: string, Logo: string }) {
+  const pathName = usePathname()
+  const mode = darkNavbarArray.includes(pathName)
+  return <Image alt="Logo"
+    src={mode ? LogoWhite : Logo}
+    loading="eager"
+    width={120}
+    height={40}></Image>
+}
+export function NavButtons() {
+  const pathName = usePathname()
+  const mode = darkNavbarArray.includes(pathName)
+  return <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
+    <button
+      className={`border ${mode
+        ? "border-white text-white"
+        : "border-black text-black"
+        } rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
+    >
+      Sign In
+    </button>
+    <button
+      className={`hidden nav-md:block border ${mode
+        ? "border-white text-white"
+        : "border-black text-black"
+        } rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
+    >
+      Subscribe
+    </button>
+  </div>
+}
 interface MobileLinkProps extends LinkProps {
   onOpenChange?: (open: boolean) => void;
   children: React.ReactNode;

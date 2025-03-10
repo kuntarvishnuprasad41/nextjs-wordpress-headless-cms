@@ -178,6 +178,20 @@ function register_wp_rest_user_endpoint() {
 
 add_action('rest_api_init', 'register_wp_rest_user_endpoint');
 
+
+add_filter('rest_prepare_post', function($response, $post, $request) {
+    if (isset($response->data['content']['rendered'])) {
+        // Get CSS from the theme's style.css
+        $theme_css = file_get_contents(get_stylesheet_directory() . '/style.css');
+        $style_tag = '<style>' . $theme_css . '</style>';
+
+        // Prepend inline CSS to the content
+        $response->data['content']['rendered'] = $style_tag . $response->data['content']['rendered'];
+    }
+    return $response;
+}, 10, 3);
+
+
 ```
 
 # Next.js + WordPress Integration steps

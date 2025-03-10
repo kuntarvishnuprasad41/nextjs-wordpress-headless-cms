@@ -1,13 +1,12 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { MobileNav } from "@/components/nav/mobile-nav";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { mainMenu, contentMenu } from "@/menu.config";
+import { MobileNav, NavButtons, NavContainer, NavImage } from "@/components/nav/mobile-nav";
+import { mainMenu } from "@/menu.config";
 import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/site.config";
+import { headers } from "next/headers"
 
-import Balancer from "react-wrap-balancer";
 import Logo from "@/public/pro_co_leader.svg";
 import LogoWhite from "@/public/pro_co_leader_white.svg";
 import Image from "next/image";
@@ -15,7 +14,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import SocialMedia from "@/components/ui/social-media";
-import { fetchDataFn } from "@/lib/fetch";
 const accurat = localFont({
   src: [
     {
@@ -41,22 +39,21 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
+  params: any
 }) {
-  const productJson = await fetchDataFn(`/wp-json/wp/v2/categories`)
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
       <body
         className={cn(
           "min-h-screen font-sans antialiased  ",
           accurat.className
         )}
       >
-
-        <Nav mode="dark" />
+        <Nav />
         {children}
         <Footer />
         <Analytics />
@@ -65,17 +62,9 @@ export default async function RootLayout({
   );
 }
 
-const Nav = ({ className, children, id, mode }: NavProps) => {
+const Nav = ({ className, children, id }: NavProps) => {
   return (
-    <nav
-      className={cn(
-        `sticky z-50 top-0 ${mode === "dark" ? "text-white bg-black" : "text-black bg-white"
-        }`,
-        "",
-        className
-      )}
-      id={id}
-    >
+    <NavContainer>
       <div
         id="nav-container"
         className="max-w-[1600px] mx-auto py-4 px-5 flex justify-between items-center"
@@ -86,13 +75,7 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
             className="hover:opacity-75 transition-all flex gap-4 items-center flex-shrink-0"
             href="/"
           >
-            <Image
-              src={mode === "dark" ? LogoWhite : Logo}
-              alt="Logo"
-              loading="eager"
-              width={120}
-              height={40}
-            ></Image>
+            <NavImage Logo={Logo} LogoWhite={LogoWhite} />
           </Link>
           <div className="flex items-center gap-2">
             <div className="mx-2 hidden nav-md:flex nav-md:gap-6">
@@ -104,27 +87,10 @@ const Nav = ({ className, children, id, mode }: NavProps) => {
             </div>
           </div>
         </div>
-        <div className="flex gap-2 md:gap-4 items-center flex-shrink-0 px-4">
-          <button
-            className={`border ${mode === "dark"
-              ? "border-white text-white"
-              : "border-black text-black"
-              } rounded-full px-3 py-1 nav-md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
-          >
-            Sign In
-          </button>
-          <button
-            className={`hidden nav-md:block border ${mode === "dark"
-              ? "border-white text-white"
-              : "border-black text-black"
-              } rounded-full px-3 py-1 md:px-4 md:py-1 text-sm md:text-base whitespace-nowrap flex-shrink-0 hover:bg-white hover:text-black transition duration-300`}
-          >
-            Subscribe
-          </button>
-        </div>
+        <NavButtons />
         {children}
       </div>
-    </nav>
+    </NavContainer>
   );
 };
 
