@@ -349,6 +349,274 @@ To render menus dynamically:
 
 #### **Register a New User**
 
+
+### Post Api for different pages
+function exclude_categories(){
+	$slugs_to_exclude = array('ad_section_one');
+    $exclude_ids = array(1);
+    foreach ($slugs_to_exclude as $slug) {
+      $category = get_term_by('slug', $slug, 'category');
+      if ($category) {
+        $exclude_ids[] = $category->term_id;
+      }
+    return $exclude_ids;
+}
+}
+function tag_category_posts($tag) {
+    // Get categories associated with this tag
+    $categories = get_categories(array(
+        'hide_empty' => true,
+		'exclude' => exclude_categories()
+    ));
+
+    $tag_data = array(
+        'id' => $tag->term_id,
+        'name' => $tag->name,
+        'slug' => $tag->slug,
+        'categories' => array(),
+    );
+
+    foreach ($categories as $category) {
+        // Fetch posts for this tag and category (limit to 5 posts)
+        $posts = get_posts(array(
+            'tag_id' => $tag->term_id,
+            'category' => $category->term_id,
+            'numberposts' => 5, // Limit to 5 posts per category
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ));
+
+        $category_posts = array();
+
+        foreach ($posts as $post) {
+            // Get the featured image
+            $featured_image_id = get_post_thumbnail_id($post->ID);
+            $featured_image_url = $featured_image_id ? wp_get_attachment_image_url($featured_image_id, 'full') : null;
+
+            // Add the post to the category
+            $category_posts[] = array(
+                'id' => $post->ID,
+                'title' => $post->post_title,
+                'content' => $post->post_content,
+                'excerpt' => $post->post_excerpt,
+                'date' => $post->post_date,
+                'featured_image' => $featured_image_id ? array(
+                    'id' => $featured_image_id,
+                    'url' => $featured_image_url
+                ) : null,
+            );
+        }
+
+        // Add the category and its posts to the tag data
+        if (!empty($category_posts)) {
+            $tag_data['categories'][] = array(
+                'id' => $category->term_id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'posts' => $category_posts,
+            );
+        }
+    }
+
+    return $tag_data; // Fixed missing semicolon
+}
+function tag_posts_only($tags,$limit) {
+    $all_tags_data = array(); // Array to store data for all tags
+
+    foreach ($tags as $tag) {
+        // Fetch posts for this tag (limit to 5 posts)
+        $posts = get_posts(array(
+            'tag_id' => $tag->term_id,
+            'numberposts' => $limit, // Limit to 5 posts
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ));
+
+        $tag_data = array(
+            'id' => $tag->term_id,
+            'name' => $tag->name,
+            'slug' => $tag->slug,
+            'posts' => array(),
+        );
+
+        foreach ($posts as $post) {
+            // Get the featured image
+            $featured_image_id = get_post_thumbnail_id($post->ID);
+            $featured_image_url = $featured_image_id ? wp_get_attachment_image_url($featured_image_id, 'full') : null;
+
+            // Add the post to the tag data
+            $tag_data['posts'][] = array(
+                'id' => $post->ID,
+                'title' => $post->post_title,
+                'content' => $post->post_content,
+                'excerpt' => $post->post_excerpt,
+                'date' => $post->post_date,
+                'featured_image' => $featured_image_id ? array(
+                    'id' => $featured_image_id,
+                    'url' => $featured_image_url
+                ) : null,
+            );
+        }
+
+        // Add this tag's data to the array
+        $all_tags_data[] = $tag_data;
+    }
+
+    return $all_tags_data; // Return data for all tags
+}
+function custom_get_tags_with_categories_and_posts($request) {
+    // Get pagination parameters
+    $per_page = $request->get_param('per_page') ? (int) $request->get_param('per_page') : 10;
+    $page = $request->get_param('page') ? (int) $request->get_param('page') : 1;
+
+    // Get tags with pagination
+    $tags = get_tags(array(
+        'hide_empty' => true,
+        'number' => $per_page,
+        'orderby' => 'count',
+        'order' => 'DESC',
+        'offset' => ($page - 1) * $per_page,
+    ));
+   
+    // If no tags are found, return a 404 response
+    if (empty($tags)) {
+        return new WP_REST_Response(array('message' => 'No tags found'), 404);
+    }
+
+    // Process the first tag
+    $data['headlinesSectionOne'] = tag_category_posts($tags[0]);
+	$data['headlinesSectionTwo'] = tag_posts_only(array_slice($tags,1,2),6);
+	$data['headlinesSectionThree'] = tag_posts_only(array_slice($tags,3,6),3);
+    return new WP_REST_Response($data, 200);
+}
+
+function register_tag_category_posts() {
+    register_rest_route('wp/v2', '/home-headlines', array(
+        'methods' => 'GET',
+        'callback' => 'custom_get_tags_with_categories_and_posts',
+        'permission_callback' => '__return_true', // Allow public access
+    ));
+}
+add_action('rest_api_init', 'register_tag_category_posts');
+
+
+add_filter('rest_prepare_post', function($response, $post, $request) {
+    if (isset($response->data['content']['rendered'])) {
+        // Get CSS from the theme's style.css
+        $theme_css = file_get_contents(get_stylesheet_directory() . '/style.css');
+        $style_tag = '<style>' . $theme_css . '</style>';
+        
+        // Prepend inline CSS to the content
+        $response->data['content']['rendered'] = $style_tag . $response->data['content']['rendered'];
+    }
+    return $response;
+}, 10, 3);
+
+function get_posts_by_parent_category_slug($request) {
+    // Get the parent category slug from the request
+    $parent_slug = $request->get_param('parent_slug');
+    $per_page = $request->get_param('per_page') ? (int) $request->get_param('per_page') : 5;
+    $page = $request->get_param('page') ? (int) $request->get_param('page') : 1;
+    if (empty($parent_slug)) {
+        return new WP_Error('no_parent_slug', 'Parent category slug is required.', array('status' => 400));
+    }
+
+    // Get the parent category by slug
+    $parent_category = get_term_by('slug', '/'.$parent_slug, 'category');
+
+    if (!$parent_category) {
+        return new WP_Error('parent_not_found', 'Parent category not found.', array('status' => 404));
+    }
+
+    // Get child categories of the parent category
+    $child_categories = get_terms(array(
+        'taxonomy' => 'category',
+        'parent'   => $parent_category->term_id,
+        'hide_empty' => false,
+    ));
+
+    if (empty($child_categories)) {
+        return new WP_Error('no_child_categories', 'No child categories found.', array('status' => 404));
+    }
+
+    // Collect posts from all child categories
+    $categories_with_posts = array();
+    foreach ($child_categories as $child_category) {
+        $child_posts = get_posts(array(
+            'category' => $child_category->term_id,
+            'numberposts' => -1,
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ));
+
+        $posts = array();
+        if (!empty($child_posts)) {
+            foreach ($child_posts as $post) {
+                $featured_image_id = get_post_thumbnail_id($post->ID);
+                $featured_image_url = $featured_image_id ? wp_get_attachment_image_src($featured_image_id, 'full')[0] : '';
+                $content_without_images = preg_replace('/<img[^>]+\>/i', '', $post->post_content);
+                $author_id = $post->post_author;
+                $author_name = get_the_author_meta('display_name', $author_id);
+                $author_slug = get_the_author_meta('user_nicename', $author_id);
+                $posts[] = array(
+                    'id' => $post->ID,
+                    'title' => $post->post_title,
+                    'content' => $content_without_images,
+                    'excerpt' => $post->post_excerpt,
+                    'slug' => $post->post_name,
+                    'date' => $post->post_date,
+                    'author' => array(
+                        'id' => $author_id,
+                        'name' => $author_name,
+                        'slug' => $author_slug
+                    ),
+                    'featured_image' => $featured_image_id ? array(
+                        'id' => $featured_image_id,
+                        'url' => $featured_image_url
+                    ) : null,
+                );
+            }
+        }
+        if(!empty($posts)){
+		   $categories_with_posts[] = array(
+            'name' => $child_category->name,
+            'slug' => '/' . $child_category->slug,
+            'posts' => $posts
+        );	
+		}
+    }
+
+    if (empty($categories_with_posts)) {
+        return new WP_Error('no_posts', 'No posts found in child categories.', array('status' => 404));
+    }
+
+    // Prepare the final response
+    $response = array(
+        'name' => $parent_category->name,
+        'slug' => '/' . $parent_category->slug,
+        'categories' => $categories_with_posts,
+    );
+
+    return rest_ensure_response($response);
+}
+
+function register_parent_category_api_endpoint() {
+    register_rest_route('wp/v2', '/parent-category-posts/', array(
+        'methods' => 'GET',
+        'callback' => 'get_posts_by_parent_category_slug',
+        'args' => array(
+            'parent_slug' => array(
+                'required' => true,
+                'validate_callback' => function($param, $request, $key) {
+                    return !empty($param);
+                },
+                'sanitize_callback' => 'sanitize_text_field',
+            ),
+        ),
+    ));
+}
+add_action('rest_api_init', 'register_parent_category_api_endpoint');
+
 ```http
 POST /wp-json/wp/v2/users/register
 ```
