@@ -34,8 +34,8 @@ export function CategoryNewsSectionOne({ data }: { data: any }) {
                     {posts.slice(0, 3).map((item: any) => {
                         return <NewsHeadings key={item.id} url={item?.featured_image?.url} excerpt={item?.excerpt} title={item?.title} author={item?.author?.name} />
                     })}
-                    <div>
-                        <Image alt="ad" className="md:w-full w-[300px] md:mx-auto mx-0 h-[450px] md:h-full object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
+                    <div className="mx-auto md:mx-0">
+                        <Image alt="ad" className="md:w-full w-[300px] md:mx-auto mx-0 h-[400px] md:h-[420px] object-fill" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={300} />
                     </div>
                 </div>
             )
