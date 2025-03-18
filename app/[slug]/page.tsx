@@ -34,17 +34,17 @@ export default async function Page({ params }: { params: any }) {
     const [firstCategory = {}, secondCategory, thirdCategory, ...restCategories] = categories
     return <Section>
         <Container>
-            <section className="container px-4 py-8 max-w-10xl flex flex-col gap-4">
+            <section className="container px-4 max-w-10xl flex flex-col gap-4">
                 <h1 className="md:text-center capitalize text-2xl md:text-4xl font-bold px-2">{data?.name || descriptions[slug]?.name}</h1>
                 <div className="md:mx-auto w-full md:w-[570px] px-2">
                     <p className="md:text-center">{descriptions[slug]?.description}</p>
                 </div>
                 <CategoryNewsSectionOne data={firstCategory} />
             </section>
-            <section className="container px-4 py-8 max-w-10xl">
+            <section className="container px-4 max-w-10xl">
                 <CategoryNewsSectionTwo data={[secondCategory, thirdCategory]} />
             </section>
-            <section className="container px-4 py-8 max-w-10xl">
+            <section className="container px-4 max-w-10xl">
                 <CategoryNewsSectionTwo data={restCategories} />
             </section>
         </Container>
