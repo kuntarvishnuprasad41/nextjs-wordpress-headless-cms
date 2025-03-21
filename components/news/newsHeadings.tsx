@@ -4,8 +4,6 @@ import Link from "next/link"
 
 export const NewsHeadings = ({ news, category }: { news: any, category?: string | undefined }) => {
     const [firstItem] = news
-    console.log(news);
-    
     return <div className="flex flex-col gap-2">
         {category && <h1 className="uppercase text-black/60">{category}</h1>}
         <div className="flex flex-col gap-2">

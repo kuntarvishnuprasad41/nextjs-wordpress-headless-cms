@@ -32,7 +32,6 @@ export default async function Page({ params }: { params: any }) {
     const data = await fetchDataFn(`/wp-json/wp/v2/parent-category-posts?parent_slug=${slug}`)
     const { categories = [] } = data
     const [firstCategory = {}, secondCategory, thirdCategory, ...restCategories] = categories
-    console.log(firstCategory);
     return <Section>
         <Container>
             <section className="container px-4 pt-8 max-w-10xl flex flex-col gap-4">
