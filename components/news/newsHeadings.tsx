@@ -4,17 +4,19 @@ import Link from "next/link"
 
 export const NewsHeadings = ({ news, category }: { news: any, category?: string | undefined }) => {
     const [firstItem] = news
+    console.log(news);
+    
     return <div className="flex flex-col gap-2">
         {category && <h1 className="uppercase text-black/60">{category}</h1>}
         <div className="flex flex-col gap-2">
-            <Link href={"#"}>
+            <Link href={`/posts/${firstItem.slug}`}>
                 <Image src={firstItem?.featured_image?.url} alt="Description Image" width={200} height={160}
                     className="w-[100%] rounded-xl h-[200px] object-cover"
                 />
             </Link>
             {
                 news.length > 0 && news.slice(0, 3).map((item: any, index: number) => {
-                    return <Link href={"#"} key={index} className="font-bold md:text-xl break-all border-b pb-2">
+                    return <Link href={`/posts/${item.slug}`} key={index} className="font-bold md:text-xl break-all border-b pb-2">
                         <h1>
                             {item.title}
                         </h1>
