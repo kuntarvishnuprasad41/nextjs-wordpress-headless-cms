@@ -71,3 +71,22 @@ export function CategoryNewsSectionTwo({ data = [] }: { data: any }) {
         })}
     </div>
 }
+export function LatestNews({ data = [] }: { data: any }) {
+    return <div className="flex flex-col gap-4 md:w-3/4">
+        <h1 className="text-3xl md:text-4xl font-bold pb-3">Latest Stories</h1>
+        {data.length > 0 && data.map((item: any, index: number) => {
+            return <div className="flex gap-6 md:flex-row flex-row-reverse items-start pb-5 border-b" key={index}>
+                <Image alt="latest-news-image" src={item.featured_image.url} width={200} height={160} className="md:w-[200px] md:h-[160px] rounded-[6px] md:rounded-none w-[85px] h-[85px] object-cover" />
+                <div className="flex flex-col gap-4">
+                    <Link href={`/posts/${item.slug}`}>
+                        <h1 className="text-xl font-semibold">{item.title}</h1>
+                    </Link>
+                    <p className="text-black/80">
+                        {item.excerpt}
+                    </p>
+                    <p className="uppercase">{item.author.name}</p>
+                </div>
+            </div>
+        })}
+    </div>
+}
