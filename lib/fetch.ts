@@ -1,7 +1,10 @@
-const baseUrl = process.env.WORDPRESS_URL
+const baseUrl = process.env.WORDPRESS_URL;
 export const fetchDataFn = async (url: string) => {
-    const response = await fetch(`${baseUrl}/${url}`, {
-        cache: "no-cache"
-    })
-    return await response.json()
-}
+  const response = await fetch(`${baseUrl}/${url}`, {
+    cache: "no-cache",
+  });
+
+  console.log(response);
+
+  return await response.json();
+};
