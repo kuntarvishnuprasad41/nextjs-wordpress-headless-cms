@@ -18,8 +18,9 @@ export const NewsHeadings = ({ url, title, excerpt, author, slug }: { author?: s
     </div>
 
 }
-export function CategoryNewsSectionOne({ data }: { data: any }) {
+export function CategoryNewsSectionOne({ data, ad }: { data: any; ad: any }) {
     const { posts = [], name } = data
+    
     return <div className="flex flex-col mx-auto gap-[1px] p-2">
         {
             name && (
@@ -35,7 +36,9 @@ export function CategoryNewsSectionOne({ data }: { data: any }) {
                         return <NewsHeadings key={item.id} url={item?.featured_image?.url} excerpt={item?.excerpt} title={item?.title} author={item?.author?.name} slug={item?.slug} />
                     })}
                     <div className="mx-auto md:mx-0">
-                        <Image alt="ad" className="md:w-full w-[300px] md:mx-auto mx-0 h-[400px] md:h-[420px] object-fill" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={300} />
+                        <a href={ad.link}>
+                            <Image alt="ad" className="md:w-full w-[300px] md:mx-auto mx-0 h-[400px] md:h-[420px] object-fill" src={ad.image_url} width={274} height={300} />
+                        </a>
                     </div>
                 </div>
             )

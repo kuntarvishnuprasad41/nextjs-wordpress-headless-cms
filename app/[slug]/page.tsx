@@ -30,7 +30,7 @@ const descriptions: any = {
 export default async function Page({ params }: { params: any }) {
     const { slug } = await params
     const data = await fetchDataFn(`/wp-json/wp/v2/parent-category-posts?parent_slug=${slug}`)
-    const { categories = [],latest_posts } = data
+    const { categories = [], latest_posts, ad_category_section_one } = data
     const [firstCategory = {}, secondCategory, thirdCategory, ...restCategories] = categories
     return <Section>
         <Container>
@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: any }) {
                 <div className="md:mx-auto w-full md:w-[570px] px-2">
                     <p className="md:text-center">{descriptions[slug]?.description}</p>
                 </div>
-                <CategoryNewsSectionOne data={firstCategory} />
+                <CategoryNewsSectionOne data={firstCategory} ad={ad_category_section_one} />
             </section>
             <section className="container px-4 max-w-10xl">
                 <CategoryNewsSectionTwo data={[secondCategory, thirdCategory]} />

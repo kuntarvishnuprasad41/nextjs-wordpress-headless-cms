@@ -25,7 +25,7 @@ export const NewsHeadings = ({ news, category }: { news: any, category?: string 
     </div>
 }
 
-export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
+export const NewsHeadingsSectionOne = ({ data, ad }: { data: any; ad: any }) => {
     const { categories } = data
     return <div className="container p-3">
         <div className="flex flex-col mx-auto gap-[1px] p-2">
@@ -37,7 +37,9 @@ export const NewsHeadingsSectionOne = ({ data }: { data: any }) => {
                     return <NewsHeadings key={item?.id} category={item.name} news={item.posts} />
                 })}
                 <div>
-                    <Image alt="ad" className="md:w-full w-[300px] mx-auto md:mx-0 h-[450px] md:h-full object-cover" src={"https://wordpress.sscinitiatives.com/wp-content/uploads/2025/02/ad-section-one.png"} width={274} height={462} />
+                    <a href={ad?.link || "#"}>
+                        <Image alt="ad" className="md:w-full w-[300px] mx-auto md:mx-0 h-[450px] md:h-full object-cover" src={ad.image_url} width={274} height={462} />
+                    </a>
                 </div>
             </div>
 
