@@ -10,23 +10,40 @@ import { File, Pen, Tag, Diamond, User, Folder } from "lucide-react";
 import { WordPressIcon } from "@/components/icons/wordpress";
 import { NextJsIcon } from "@/components/icons/nextjs";
 import Hero from "@/components/hero/hero";
-import { NewsHeadingsSectionOne, NewsHeadingsSectionThree, NewsHeadingsSectionTwo } from "@/components/news/newsHeadings";
+import {
+  NewsHeadingsSectionOne,
+  NewsHeadingsSectionThree,
+  NewsHeadingsSectionTwo,
+} from "@/components/news/newsHeadings";
 import { fetchDataFn } from "@/lib/fetch";
 import NewsOverview from "@/components/majorArticles/NewsOverview";
+import NewsLetterBlue from "@/components/newsLetter/newsLetterBlue";
 
 // This page is using the craft.tsx component and design system
 export default async function Home() {
-  const { headlinesSectionOne, headlinesSectionTwo,headlinesSectionThree,headlinesSectionOneAd } = await fetchDataFn("/wp-json/wp/v2/home-headlines")
-  const [headlinesSectionTwo1, headlinesSectionTwo2] = headlinesSectionTwo
-  
+  const {
+    headlinesSectionOne,
+    headlinesSectionTwo,
+    headlinesSectionThree,
+    headlinesSectionOneAd,
+  } = await fetchDataFn("/wp-json/wp/v2/home-headlines");
+  const [headlinesSectionTwo1, headlinesSectionTwo2] = headlinesSectionTwo;
+
   return (
     <Section>
       <Container>
         <Hero />
-        <NewsHeadingsSectionOne data={headlinesSectionOne} ad={headlinesSectionOneAd}/>
-        <NewsHeadingsSectionTwo data={headlinesSectionTwo1} data1={headlinesSectionTwo2} />
+        <NewsHeadingsSectionOne
+          data={headlinesSectionOne}
+          ad={headlinesSectionOneAd}
+        />
+        <NewsHeadingsSectionTwo
+          data={headlinesSectionTwo1}
+          data1={headlinesSectionTwo2}
+        />
+        <NewsLetterBlue />
         <NewsOverview />
-        <NewsHeadingsSectionThree data={headlinesSectionThree}/>
+        <NewsHeadingsSectionThree data={headlinesSectionThree} />
         {/* <Hero /> */}
         {/* <ToDelete /> */}
       </Container>
