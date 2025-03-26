@@ -25,6 +25,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
+  console.log(post);
 
   if (!post) {
     return {};
@@ -112,10 +113,10 @@ export default async function Page({
         </div>
 
         <div className="md:w-1/2 flex flex-col justify-center space-y-4">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-            {/* {title} */}
-            {post.title.rendered}
-          </h1>
+          <h1
+            className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+          ></h1>
 
           <Article
             className="prose prose-lg max-w-none text-white"
