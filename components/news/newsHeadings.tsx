@@ -28,7 +28,11 @@ export const NewsHeadings = ({
               <Link
                 href={`/posts/${item.slug}`}
                 key={index}
-                className="font-bold md:text-xl  border-b pb-2 mb-4 hover:underline"
+                className={`font-bold md:text-xl   pb-2  ${
+                  index !== news.slice(0, 3).length - 1 ? "border-b  mb-4" : ""
+                }
+                
+                hover:underline`}
               >
                 <h1>{item.title}</h1>
               </Link>
