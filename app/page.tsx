@@ -18,6 +18,7 @@ import {
 import { fetchDataFn } from "@/lib/fetch";
 import NewsOverview from "@/components/majorArticles/NewsOverview";
 import NewsLetterBlue from "@/components/newsLetter/newsLetterBlue";
+import CategoryCarousel from "@/components/categoryCarousel/CategoryCarousel";
 
 // This page is using the craft.tsx component and design system
 export default async function Home() {
@@ -48,7 +49,7 @@ export default async function Home() {
           data1={headlinesSectionTwo2}
         />
         <NewsOverview />
-
+        <CategoryCarousel />
         <NewsHeadingsSectionThree data={headlinesSectionThree} />
         {/* <Hero /> */}
         {/* <ToDelete /> */}
