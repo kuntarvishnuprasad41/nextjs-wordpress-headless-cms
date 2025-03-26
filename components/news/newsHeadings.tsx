@@ -10,7 +10,7 @@ export const NewsHeadings = ({
 }) => {
   const [firstItem] = news;
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       {category && <h1 className="uppercase text-black/60">{category}</h1>}
       <div className="flex flex-col gap-2">
         <Link href={`/posts/${firstItem.slug}`}>
@@ -28,7 +28,7 @@ export const NewsHeadings = ({
               <Link
                 href={`/posts/${item.slug}`}
                 key={index}
-                className="font-bold md:text-xl  border-b pb-2"
+                className="font-bold md:text-xl  border-b pb-2 mb-4 hover:underline"
               >
                 <h1>{item.title}</h1>
               </Link>
