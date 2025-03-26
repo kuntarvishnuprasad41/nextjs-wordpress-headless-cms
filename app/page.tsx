@@ -41,8 +41,14 @@ export default async function Home() {
           data={headlinesSectionTwo1}
           data1={headlinesSectionTwo2}
         />
-        <NewsLetterBlue />
         <NewsOverview />
+        <NewsLetterBlue />
+        <NewsHeadingsSectionTwo
+          data={headlinesSectionTwo1}
+          data1={headlinesSectionTwo2}
+        />
+        <NewsOverview />
+
         <NewsHeadingsSectionThree data={headlinesSectionThree} />
         {/* <Hero /> */}
         {/* <ToDelete /> */}

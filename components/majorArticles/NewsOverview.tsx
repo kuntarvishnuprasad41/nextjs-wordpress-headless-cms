@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function NewsOverview() {
   return (
-    <div className="min-h-screen  p-0    overflow-hidden">
+    <div className="  p-0    overflow-hidden">
       <section className="md:container mx-auto px:0 py-8 max-w-10xl px-0  ">
         <div className="flex flex-col mx-auto md:-ml-3   md:flex-row px-5  md:px-0  gap-14 sm:gap-2 w-full  ">
           <div className=" overflow-hidden rounded-lg">
