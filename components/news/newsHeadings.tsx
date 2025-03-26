@@ -28,7 +28,7 @@ export const NewsHeadings = ({
               <Link
                 href={`/posts/${item.slug}`}
                 key={index}
-                className="font-bold md:text-xl break-all border-b pb-2"
+                className="font-bold md:text-xl  border-b pb-2"
               >
                 <h1>{item.title}</h1>
               </Link>
