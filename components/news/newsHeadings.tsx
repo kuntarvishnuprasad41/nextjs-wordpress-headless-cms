@@ -19,7 +19,7 @@ export const NewsHeadings = ({
             alt="Description Image"
             width={200}
             height={160}
-            className="w-[100%] rounded-xl h-[200px] object-cover"
+            className="w-[100%]  h-[200px] object-cover"
           />
         </Link>
         {news.length > 0 &&
