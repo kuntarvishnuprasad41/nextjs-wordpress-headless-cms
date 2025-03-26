@@ -101,7 +101,10 @@ export const NewsHeadingsSectionTwo = ({
               {data?.name}
             </span>
           </div>
-          <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-2 gap-7">
+          <div className="pl-4 -mt-[0.5px]">
+            <div className="border-t border-t-black "></div>
+          </div>
+          <div className="py-4 grid grid-cols-1 md:grid-cols-2 gap-7">
             <NewsHeadings news={data.posts.slice(0, 3)} />
             <NewsHeadings news={data.posts.slice(3)} />
           </div>
@@ -114,7 +117,10 @@ export const NewsHeadingsSectionTwo = ({
               {data1?.name}
             </span>
           </div>
-          <div className="border-t border-t-black py-4 grid grid-cols-1 md:grid-cols-2 gap-7">
+          <div className="pl-4 -mt-[0.5px]">
+            <div className="border-t border-t-black "></div>
+          </div>
+          <div className=" py-4 grid grid-cols-1 md:grid-cols-2 gap-7">
             <NewsHeadings news={data1.posts.slice(0, 3)} />
             <NewsHeadings news={data1.posts.slice(3)} />
           </div>
@@ -134,7 +140,10 @@ export const NewsHeadingsSectionThree = ({ data }: { data: any }) => {
                 {item?.name}
               </span>
             </div>
-            <div className="border-t border-t-black py-4">
+            <div className="pl-4 -mt-[0.5px]">
+              <div className="border-t border-t-black "></div>
+            </div>
+            <div className=" py-4">
               <NewsHeadings news={item.posts.slice(0, 3)} />
             </div>
           </div>
