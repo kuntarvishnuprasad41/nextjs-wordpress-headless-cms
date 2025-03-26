@@ -96,39 +96,3 @@ function ArticleCard({
     </div>
   );
 }
-
-function VideoCard({
-  imageUrl,
-  bgColor,
-}: {
-  imageUrl: string;
-  bgColor: string;
-}) {
-  return (
-    <div className="relative">
-      <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
-        00:52
-      </div>
-      <div className="relative h-40 mb-2">
-        <Image
-          src={"/images/p2.png"}
-          alt="Video thumbnail"
-          fill
-          className={`object-cover ${bgColor}`}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-10 h-10 rounded-full bg-white bg-opacity-80 flex items-center justify-center">
-            <div className="w-0 h-0 border-t-[6px] border-t-transparent border-l-[12px] border-l-black border-b-[6px] border-b-transparent ml-1"></div>
-          </div>
-        </div>
-      </div>
-      <div className="text-white">
-        <p className="text-xs font-medium mb-1">MARK KEIERLEBER</p>
-        <p className="text-sm font-medium">
-          Tariffs, globalization, and democracy, with Harvard economist Dani
-          Rodrik
-        </p>
-      </div>
-    </div>
-  );
-}
