@@ -5,7 +5,7 @@ function CategoryCarousel() {
   return (
     <div className="container   mx-auto mt-8 px-4 ">
       {/* Article Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <ArticleCard
           category="Business"
           bgColor="#000000"
