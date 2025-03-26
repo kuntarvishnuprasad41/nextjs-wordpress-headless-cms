@@ -6,6 +6,7 @@ import {
   LatestNews,
 } from "./components/categoryNews";
 import LeadingVideos from "@/components/leadingVideos/LeadingVideos";
+import NewsLetterGray from "@/components/newsLetter/newsLetterGray";
 const descriptions: any = {
   products: {
     name: "products",
@@ -66,6 +67,9 @@ export default async function Page({ params }: { params: any }) {
         </section>
         <section className="container px-4 max-w-10xl">
           <CategoryNewsSectionTwo data={restCategories} />
+        </section>
+        <section className="container px-4 max-w-10xl">
+          <NewsLetterGray />
         </section>
         <LeadingVideos />
         <section className="container px-4 max-w-10xl">
