@@ -3,7 +3,7 @@ import { Linkedin, Instagram, Facebook, Twitter } from "lucide-react";
 
 function NewsLetterBlue() {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto w-full p-3">
       <div className="bg-[#121b59] rounded-xl p-6   flex justify-between items-center w-full">
         <div className="flex items-center gap-4">
           <div className="bg-[#2250fc] p-2 rounded-md">
