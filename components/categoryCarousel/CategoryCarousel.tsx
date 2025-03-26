@@ -65,9 +65,9 @@ function ArticleCard({
       <div className="p-6 relative z-10" style={{ color: textColor }}>
         <h3 className="text-2xl font-bold mb-2">{category}</h3>
         <p className="mb-4 text-sm">
-          Engineers between 19 and 24, most linked to Musk's companies, are
+          Engineers between 19 and 24, most linked to Musk&apos;s companies, are
           playing a key role as he seizes control of federal infrastructure.
-          Engineers between 19 and 24, most linked to Musk's companies.
+          Engineers between 19 and 24, most linked to Musk&apos;s companies.
         </p>
         <button
           className="bg-transparent border rounded-full px-4 py-1 text-sm"
