@@ -3,13 +3,7 @@ import React from "react";
 
 function CategoryCarousel() {
   return (
-    <div className="container mx-auto">
-      <div className="mb-4">
-        <h3 className="text-sm font-medium uppercase tracking-wider">
-          VITTORIO ELLIOT
-        </h3>
-      </div>
-
+    <div className="container   mx-auto mt-8 px-4 ">
       {/* Article Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
         <ArticleCard

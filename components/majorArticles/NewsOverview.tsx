@@ -65,13 +65,13 @@ function NewsOverview() {
           ].map((article, index, arr) => (
             <div
               key={index}
-              className={`w-full flex items-stretch pr-4 mt-2 border-gray-300
+              className={`   flex items-stretch pr-4 mt-2 border-gray-300
         ${
           index !== arr.length - 1 ? "border-b md:border-b-0 md:border-r" : ""
         }`}
             >
               <Card
-                className={` overflow-hidden container   shadow-none flex flex-row-reverse justify-between  w-[335px] text-start h-[90px] border-none rounded-none border-r border-gray-300 last:border-r-0 px-0 pl-0 pr-0 p-0`}
+                className={` overflow-hidden   shadow-none flex flex-row-reverse justify-between  md:w-[335px] w-[450px]   text-start h-[90px] border-none rounded-none border-r border-gray-300 last:border-r-0 px-0 pl-0 pr-0 p-0`}
               >
                 <CardHeader className="p-0">
                   <div className="w-[120px] h-[120px]">
